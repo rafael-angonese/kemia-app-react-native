@@ -33,8 +33,8 @@ const Login = () => {
 
     const { signIn } = useAuth()
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('rafael');
+    const [senha, setSenha] = useState('123456');
     const [error, setError] = useState({})
 
     const [spinner, setSpinner] = useState(false);
@@ -44,13 +44,11 @@ const Login = () => {
 
         try {
             const schema = Yup.object().shape({
-                email: Yup.string()
-                    .email('Digite um e-mail válido')
-                    .required('O email é obrigatório'),
-                password: Yup.string().required('A senha é obrigatório'),
+                username: Yup.string().required('O nome de usuário é obrigatório'),
+                senha: Yup.string().required('A senha é obrigatório'),
             })
 
-            await schema.validate({ email: email, password: password }, {
+            await schema.validate({ username: username, senha: senha }, {
                 abortEarly: false,
             })
 
@@ -82,7 +80,7 @@ const Login = () => {
 
         setSpinner(true)
         try {
-            const response = await signIn(email, password)
+            const response = await signIn(username, senha)
 
             if(response.status == 401 || response.status == 400) {
                 const errorMessages = {}
@@ -90,9 +88,10 @@ const Login = () => {
                 response.data.forEach(erro => {
                     errorMessages[erro.field] = erro.message
                 })
+
+                console.log(response.data)
                 setError(errorMessages)
             }
-            console.log(response.data)
 
             setSpinner(false)
 
@@ -109,25 +108,25 @@ const Login = () => {
         <View style={styles.container}>
 
             <TextInput style={styles.input}
-                placeholder="Email"
-                value={email}
+                placeholder="Nome do usuário"
+                value={username}
                 autoCorrect={false}
                 placeholderTextColor="#9a73ef"
                 autoCapitalize="none"
-                onChangeText={text => setEmail(text)}
+                onChangeText={text => setUsername(text)}
             />
-            <Text style={styles.error}>{error.email}</Text>
+            <Text style={styles.error}>{error.username}</Text>
 
             <TextInput style={styles.input}
                 placeholder="Senha"
-                value={password}
+                value={senha}
                 autoCorrect={false}
                 secureTextEntry={true}
                 placeholderTextColor="#9a73ef"
                 autoCapitalize="none"
-                onChangeText={text => setPassword(text)}
+                onChangeText={text => setSenha(text)}
             />
-            <Text style={styles.error}>{error.password}</Text>
+            <Text style={styles.error}>{error.senha}</Text>
 
             <Text style={styles.error}>{error.error}</Text>
             <ActivityIndicator style={spinner == true ? { display: 'flex' } : { display: 'none' }} size="large" color="#9a73ef" />

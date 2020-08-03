@@ -11,8 +11,8 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         async function loadStoragedData() {
-            const storagedUser = await AsyncStorage.getItem('@AuthRN:user')
-            const storagedToken = await AsyncStorage.getItem('@AuthRN:token')
+            const storagedUser = await AsyncStorage.getItem('@kemia:user')
+            const storagedToken = await AsyncStorage.getItem('@kemia:token')
 
             if (storagedUser && storagedToken) {
                 api.defaults.headers.Authorization = `Bearer ${storagedToken}`
@@ -25,20 +25,20 @@ export const AuthProvider = ({ children }) => {
         loadStoragedData()
     }, [])
 
-    async function signIn(email, password) {
+    async function signIn(username, senha) {
 
         try {
             const response = await api.post('/authenticate', {
-                email: email,
-                password: password
+                username: username,
+                senha: senha
             })
 
             setUser(response.data.user)
 
             api.defaults.headers.Authorization = `Bearer ${response.data.token}`
 
-            await AsyncStorage.setItem('@AuthRN:user', JSON.stringify(response.data.user))
-            await AsyncStorage.setItem('@AuthRN:token', response.data.token)
+            await AsyncStorage.setItem('@kemia:user', JSON.stringify(response.data.user))
+            await AsyncStorage.setItem('@kemia:token', response.data.token)
 
             return response.data
 
