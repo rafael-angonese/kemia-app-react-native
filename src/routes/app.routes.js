@@ -26,8 +26,8 @@ const HomeRoutes = () => {
     }
 
     useEffect(() => {
-        myAsyncEffect()
-    }, [user]);
+        // myAsyncEffect()
+    }, []);
 
     return (
         <HomeStack.Navigator>

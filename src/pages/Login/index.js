@@ -79,29 +79,32 @@ const Login = () => {
         }
 
         setSpinner(true)
-        try {
-            const response = await signIn(username, senha)
+        let isActive = true;
 
-            if(response.status == 401 || response.status == 400) {
-                const errorMessages = {}
+        signIn(username, senha).then((response) => {
 
-                response.data.forEach(erro => {
-                    errorMessages[erro.field] = erro.message
-                })
+            if (response.status == 401 || response.status == 400) {
+                if (isActive) {
+                    const errorMessages = {}
 
-                console.log(response.data)
-                setError(errorMessages)
+                    response.data.forEach(erro => {
+                        errorMessages[erro.field] = erro.message
+                    })
+
+                    setError(errorMessages)
+                }
+
+                setSpinner(false)
             }
 
+        }).catch((error) => {
             setSpinner(false)
+            setError({ error: 'Aconteceu um erro ao comunicar com o servidor' })
+        })
 
-        } catch (error) {
-            setSpinner(false)
-            console.log(response)
-            setError({error: 'Aconteceu um erro ao validar os dados'})
-        }
-
-
+        return () => {
+            isActive = false;
+        };
     }
 
     return (
