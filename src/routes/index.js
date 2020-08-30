@@ -1,34 +1,24 @@
-import React from 'react'
-import { View, ActivityIndicator, StyleSheet } from 'react-native'
+import React from 'react';
+import { useSelector } from 'react-redux';
 
-import { useAuth } from '../contexts/auth'
-
-import AuthRoutes from './auth.routes'
-import AppRoutes from './app.routes'
-
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-})
+import AuthRoutes from './auth.routes';
+import AppRoutes from './app.routes';
 
 const Routes = () => {
+    const { signed } = useSelector((state) => state.auth);
+    // const { signed, loading } = useSelector((state) => state.auth);
+    // const signed = false
+    // const loading = false
 
-    const { signed, loading } = useAuth()
+    // if(loading) {
+    //     return (
+    //         <View style={styles.container}>
+    //             <ActivityIndicator size="large" color="#666" />
+    //         </View>
+    //     )
+    // }
 
-    if(loading) {
-        return (
-            <View style={styles.container}>
-                <ActivityIndicator size="large" color="#666" />
-            </View>
-        )
-    }
+    return signed ? <AppRoutes /> : <AuthRoutes />;
+};
 
-    return signed ? <AppRoutes /> : <AuthRoutes />
-
-}
-
-export default Routes
+export default Routes;

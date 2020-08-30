@@ -1,145 +1,107 @@
-import React, { useState } from 'react'
-import { View, Button, StyleSheet, TextInput, Text, ActivityIndicator } from 'react-native'
-import { useAuth } from '../../contexts/auth'
-import * as Yup from 'yup'
+import React, { useState, useRef } from 'react';
+import { View, Button, TextInput, Text, ActivityIndicator } from 'react-native';
+import * as Yup from 'yup';
+import { useSelector, useDispatch } from 'react-redux';
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    input: {
-        margin: 5,
-        height: 40,
-        padding: 10,
-        borderColor: '#7a42f4',
-        width: '90%',
-        borderWidth: 1,
-        fontSize: 16,
-        borderRadius: 4,
-    },
-    error: {
-        color: '#ce2029',
-        //marginBottom: 10,
-    },
-    button: {
-        width: '90%'
-    }
-})
+import { signInRequest } from '../../store/modules/auth/actions';
 
+import styles from './styles';
 
 const Login = () => {
-
-    const { signIn } = useAuth()
-
+    const { loading, error } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+    const senhadRef = useRef();
     const [username, setUsername] = useState('rafael');
     const [senha, setSenha] = useState('123456');
-    const [error, setError] = useState({})
-
-    const [spinner, setSpinner] = useState(false);
+    const [yupError, setYupError] = useState({});
 
     async function validation() {
-        setError({})
+        setYupError({});
 
         try {
             const schema = Yup.object().shape({
-                username: Yup.string().required('O nome de usuário é obrigatório'),
-                senha: Yup.string().required('A senha é obrigatório'),
-            })
+                username: Yup.string()
+                    .trim()
+                    .required('O nome de usuário é obrigatório'),
+                senha: Yup.string().trim().required('A senha é obrigatório'),
+            });
 
-            await schema.validate({ username: username, senha: senha }, {
-                abortEarly: false,
-            })
+            await schema.validate(
+                { username, senha },
+                {
+                    abortEarly: false,
+                }
+            );
 
-            return true
+            return true;
+        } catch (errors) {
+            if (errors instanceof Yup.ValidationError) {
+                const errorMessages = {};
 
-        } catch (error) {
-
-            if (error instanceof Yup.ValidationError) {
-                const errorMessages = {}
-
-                error.inner.forEach(erro => {
-                    errorMessages[erro.path] = erro.message
-                })
-                setError(errorMessages)
+                errors.inner.forEach((erro) => {
+                    errorMessages[erro.path] = erro.message;
+                });
+                setYupError(errorMessages);
             }
 
-            return false
+            return false;
         }
-
-
     }
 
-    async function handleLogin() {
-
-        let validate = await validation()
-        if (validate == false) {
-            return
+    async function handleSubmit() {
+        const validate = await validation();
+        if (validate === false) {
+            return;
         }
 
-        setSpinner(true)
-        let isActive = true;
-
-        signIn(username, senha).then((response) => {
-
-            if (response.status == 401 || response.status == 400) {
-                if (isActive) {
-                    const errorMessages = {}
-
-                    response.data.forEach(erro => {
-                        errorMessages[erro.field] = erro.message
-                    })
-
-                    setError(errorMessages)
-                }
-
-                setSpinner(false)
-            }
-
-        }).catch((error) => {
-            setSpinner(false)
-            setError({ error: 'Aconteceu um erro ao comunicar com o servidor' })
-        })
-
-        return () => {
-            isActive = false;
-        };
+        dispatch(signInRequest(username, senha));
     }
 
     return (
         <View style={styles.container}>
-
-            <TextInput style={styles.input}
+            <TextInput
+                style={styles.input}
                 placeholder="Nome do usuário"
                 value={username}
                 autoCorrect={false}
                 placeholderTextColor="#9a73ef"
                 autoCapitalize="none"
-                onChangeText={text => setUsername(text)}
+                returnKeyType="next"
+                onSubmitEditing={() => senhadRef.current.focus()}
+                onChangeText={(text) => setUsername(text)}
             />
-            <Text style={styles.error}>{error.username}</Text>
+            <Text style={styles.error}>
+                {yupError.username} {error.username}
+            </Text>
 
-            <TextInput style={styles.input}
+            <TextInput
+                style={styles.input}
                 placeholder="Senha"
                 value={senha}
                 autoCorrect={false}
-                secureTextEntry={true}
+                secureTextEntry="true"
                 placeholderTextColor="#9a73ef"
                 autoCapitalize="none"
-                onChangeText={text => setSenha(text)}
+                ref={senhadRef}
+                returnKeyType="send"
+                onSubmitEditing={handleSubmit}
+                onChangeText={(text) => setSenha(text)}
             />
-            <Text style={styles.error}>{error.senha}</Text>
+            <Text style={styles.error}>
+                {yupError.senha} {error.senha}
+            </Text>
 
-            <Text style={styles.error}>{error.error}</Text>
-            <ActivityIndicator style={spinner == true ? { display: 'flex' } : { display: 'none' }} size="large" color="#9a73ef" />
+            <Text style={styles.error}>{yupError.error}</Text>
 
             <View style={styles.button}>
-                <Button title="Entrar" onPress={() => { handleLogin() }} />
+                {loading ? (
+                    <ActivityIndicator color="#9a73ef" size="large" />
+                ) : (
+                    <Button title="Entrar" onPress={handleSubmit} />
+                )}
             </View>
-
         </View>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;

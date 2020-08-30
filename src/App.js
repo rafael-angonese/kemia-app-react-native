@@ -1,22 +1,24 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { View } from 'react-native';
+import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
-import Routes from './routes'
-import { AuthProvider } from './contexts/auth';
-import { Provider } from 'react-redux'
-import store from './store'
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
+import Routes from './routes';
+import { store, persistor } from './store';
 
 const App = () => {
     return (
-        <NavigationContainer>
-            <AuthProvider>
-                <Provider store={store}>
-                    <Routes />
-                </Provider>
-            </AuthProvider>
-        </NavigationContainer>
+        <Provider store={store}>
+            <PersistGate persistor={persistor}>
+                <NavigationContainer>
+                    <PaperProvider>
+                        <Routes />
+                    </PaperProvider>
+                </NavigationContainer>
+            </PersistGate>
+        </Provider>
     );
-}
+};
 
 export default App;
