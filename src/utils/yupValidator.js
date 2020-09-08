@@ -9,8 +9,7 @@ async function yupValidator(schema, data) {
         const errorMessages = {};
         if (errors instanceof Yup.ValidationError) {
             errors.inner.forEach((error) => {
-                console.log(error);
-                // errorMessages[error.path] = `${attribute} ${message}`
+                errorMessages[error.path] = error.message;
             });
         }
 

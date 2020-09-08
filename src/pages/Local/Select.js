@@ -5,35 +5,36 @@ import { CustomPicker } from 'react-native-custom-picker';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { dataInRequest, setEmpresa } from '../../store/modules/empresa/actions';
+import { dataInRequest, setLocal } from '../../store/modules/local/actions';
 
 import styles from '../Styles/styles';
 
-const SelectEmpresa = () => {
-    const { loading, empresas } = useSelector((state) => state.empresa);
+const SelectLocal = () => {
+    const { loading, locais } = useSelector((state) => state.local);
+    const { empresa } = useSelector((state) => state.empresa);
     const dispatch = useDispatch();
 
     const navigation = useNavigation();
-    const [myEmpresa, setMyEmpresa] = useState(null);
+    const [myLocal, setMyLocal] = useState(null);
     const [erro, setErro] = useState('');
 
     async function entrar() {
         setErro('');
-        if (!myEmpresa) {
-            setErro('Por favor selecione uma empresa');
+        if (!myLocal) {
+            setErro('Por favor selecione um local');
             return;
         }
 
         try {
-            dispatch(setEmpresa(myEmpresa));
-            navigation.navigate('SelectLocal');
+            dispatch(setLocal(myLocal));
+            navigation.navigate('Home');
         } catch (errors) {
-            setErro('Por favor selecione uma empresa');
+            setErro('Por favor selecione um local');
         }
     }
 
     async function myAsyncEffect() {
-        dispatch(dataInRequest());
+        dispatch(dataInRequest({ empresaId: empresa.id }));
     }
 
     useEffect(() => {
@@ -43,16 +44,16 @@ const SelectEmpresa = () => {
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.container_data}>
-                <Text>Empresa:</Text>
+                <Text>Local:</Text>
             </View>
 
             <View style={styles.container_data}>
                 <CustomPicker
-                    options={empresas}
-                    placeholder="Selecione uma empresa"
+                    options={locais}
+                    placeholder="Selecione um local"
                     getLabel={(item) => item.nome}
                     onValueChange={(value) => {
-                        setMyEmpresa(value);
+                        setMyLocal(value);
                     }}
                 />
             </View>
@@ -72,11 +73,11 @@ const SelectEmpresa = () => {
             </View>
 
             <FAB
-                label="Empresas"
+                label="Locais"
                 style={styles.fab}
                 icon="plus"
                 onPress={() =>
-                    navigation.navigate('empresa_list', {
+                    navigation.navigate('locais_list', {
                         refresh: myAsyncEffect.bind(this),
                     })
                 }
@@ -85,4 +86,4 @@ const SelectEmpresa = () => {
     );
 };
 
-export default SelectEmpresa;
+export default SelectLocal;

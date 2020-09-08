@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
 
 import auth from './auth/reducer';
-import user from './user/reducer';
 import empresa from './empresa/reducer';
+import local from './local/reducer';
+import usuario from './usuario/reducer';
 
 export default combineReducers({
     auth,
-    user,
     empresa,
+    local,
+    usuario,
 });

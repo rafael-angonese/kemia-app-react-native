@@ -2,7 +2,7 @@ import types from './types';
 
 const INITIAL_STATE = {
     token: null,
-    // user: {},
+    user: {},
     error: {},
     signed: false,
     loading: false,
@@ -17,7 +17,7 @@ export default function auth(state = INITIAL_STATE, action) {
             return {
                 error: {},
                 token: action.payload.token,
-                // user: action.payload.user,
+                user: action.payload.user,
                 signed: true,
                 loading: false,
             };

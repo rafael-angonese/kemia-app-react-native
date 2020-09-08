@@ -1,17 +1,19 @@
 import { takeLatest, all, call, put } from 'redux-saga/effects';
-import { index } from '../../../services/empresa';
+import { index } from '../../../services/usuario';
 import { dataInSuccess, dataInFailure } from './actions';
 
 import types from './types';
 
-export function* dataInRequest() {
+export function* dataInRequest({ payload }) {
     try {
-        const response = yield call(index);
+        const { params } = payload;
+        const response = yield call(index, params);
+
 
         const { data } = response;
         yield put(dataInSuccess(data));
     } catch (error) {
-        yield put(dataInFailure({}));
+        yield put(dataInFailure({ erro: 'Não foi possível buscar os dados' }));
     }
 }
 

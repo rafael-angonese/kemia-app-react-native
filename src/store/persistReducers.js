@@ -6,8 +6,8 @@ export default (reducers) => {
         {
             key: '@kemia',
             storage: AsyncStorage,
-            whitelist: ['auth', 'user', 'empresa'],
-            // blacklist: ['auth', 'user'],
+            whitelist: ['auth', 'empresa', 'local', 'usuario'],
+            // blacklist: ['auth', 'empresa', 'local'],
         },
         reducers
     );
