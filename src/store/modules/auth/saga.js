@@ -24,9 +24,11 @@ export function* signInRequest({ payload }) {
     } catch (error) {
         const errorMessages = {};
 
-        error.response.data.forEach((erro) => {
-            errorMessages[erro.field] = erro.message;
-        });
+        if (error.response) {
+            error.response.data.forEach((erro) => {
+                errorMessages[erro.field] = erro.message;
+            });
+        }
         yield put(signInFailure(errorMessages));
 
         // Alert.alert(
@@ -50,7 +52,6 @@ export function signOutRequest() {
 // }
 export function setToken({ payload }) {
     if (!payload) return;
-
     if (payload.token === undefined) {
         if (payload.auth.token) {
             api.defaults.headers.Authorization = `Bearer ${payload.auth.token}`;
