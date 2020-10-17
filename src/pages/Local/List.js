@@ -2,21 +2,34 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator,ScrollView, TouchableOpacity } from 'react-native';
 import { FAB, DataTable } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector, useDispatch } from 'react-redux';
 
-import { dataInRequest, setLocal } from '../../store/modules/local/actions';
-
+import { useAuth } from '../../contexts/auth';
+import handlingErros from '../../utils/handlingErros';
+import api from '../../services/api';
 import styles from '../Styles/styles';
 
 const List = () => {
-    const { loading, locais, errors } = useSelector((state) => state.local);
-    const { empresa } = useSelector((state) => state.empresa);
-    const dispatch = useDispatch();
+    const { empresa } = useAuth();
+    const [loading, setLoading] = useState(false);
+    const [locais, setLocais] = useState([]);
+    const [error, setError] = useState('');
 
     const navigation = useNavigation();
 
     async function myAsyncEffect() {
-        dispatch(dataInRequest({ empresaId: empresa.id }));
+        setLoading(true);
+        try {
+            const response = await api.get(`/locais?empresaId=${empresa.id}`)
+            const { data } = response;
+            setLocais(data)
+            setLoading(false);
+
+        } catch (error) {
+            setLoading(false);
+            setLocais([])
+            const validation = handlingErros(error);
+            setError(validation);
+        }
     }
 
     useEffect(() => {
@@ -32,7 +45,7 @@ const List = () => {
                 size="large"
                 color="#0000ff"
             />
-            {errors.length !== 0 && <Text style={styles.error}>{errors?.erro}</Text>}
+            {error.length !== 0 && <Text style={styles.error}>{error?.error}</Text>}
 
             <ScrollView>
                 <ScrollView

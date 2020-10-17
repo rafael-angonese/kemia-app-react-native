@@ -1,13 +1,13 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
+import { useAuth } from '../contexts/auth';
 import AuthRoutes from './auth.routes';
 import AppRoutes from './app.routes';
 
 const Routes = () => {
-    const { signed } = useSelector((state) => state.auth);
+    const { user } = useAuth();
 
-    return signed ? <AppRoutes /> : <AuthRoutes />;
+    return user ? <AppRoutes /> : <AuthRoutes />;
 };
 
 export default Routes;

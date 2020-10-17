@@ -1,35 +1,37 @@
 import React, { Component, useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { Button, Chip, Paragraph, Dialog, Portal } from 'react-native-paper';
-import { destroyInRequest } from '../../store/modules/local/actions';
-import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
+import { useAuth } from '../../contexts/auth';
+import yupValidator from '../../utils/yupValidator';
+import handlingErros from '../../utils/handlingErros';
+import api from '../../services/api';
 import styles from '../Styles/styles';
 
 const Show = ({ route }) => {
     const { refresh } = route.params;
     const { item } = route.params;
-    const [erro, setErro] = useState('');
+    const [error, setError] = useState('');
     const [dialog, setDialog] = useState(false);
     const navigation = useNavigation();
-    const dispatch = useDispatch();
 
-    const { loading } = useSelector((state) => state.local);
+    const [loading, setLoading] = useState(false);
 
     async function excluir() {
-        setDialog(false);
-        dispatch(
-            destroyInRequest(item.id, (success) => {
-                if (!success) {
-                    setErro('Não foi possível excluir este local')
-                }
-                if (success) {
-                    refresh()
-                    navigation.navigate('LocalList')
-                }
-            })
-        );
+        setDialog(false)
+        setLoading(true)
+        try {
+            const response = await api.delete('/locais/' + item.id);
+            setLoading(false)
+            refresh()
+            navigation.navigate('LocalList')
+        } catch (error) {
+            setLoading(false)
+            // setError('Não foi possível excluir este local.')
+            const validation = handlingErros(error);
+            setError(validation);
+        }
     }
 
     return (
@@ -41,7 +43,9 @@ const Show = ({ route }) => {
                 size="large"
                 color="#0000ff"
             />
-            {erro.length !== 0 && <Text style={styles.error}>{erro}</Text>}
+            {error.length !== 0 && (
+                <Text style={styles.error}>{error?.error}</Text>
+            )}
 
             <Text style={styles.title_view}>Detalhes do local</Text>
             <Text>Id: {item.id}</Text>

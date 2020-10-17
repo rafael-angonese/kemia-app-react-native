@@ -3,42 +3,51 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import { FAB, Button } from 'react-native-paper';
 import { CustomPicker } from 'react-native-custom-picker';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector, useDispatch } from 'react-redux';
 
-import { dataInRequest, setLocal } from '../../store/modules/local/actions';
-
+import { useAuth } from '../../contexts/auth';
+import handlingErros from '../../utils/handlingErros';
+import api from '../../services/api';
 import styles from '../Styles/styles';
 
 const SelectLocal = () => {
-    const { loading, locais } = useSelector((state) => state.local);
-    const { empresa } = useSelector((state) => state.empresa);
-    const dispatch = useDispatch();
+    const { empresa, setAuthLocal } = useAuth();
+    const [loading, setLoading] = useState(false);
+    const [locais, setLocais] = useState([]);
 
     const navigation = useNavigation();
-    const [myLocal, setMyLocal] = useState(null);
-    const [erro, setErro] = useState('');
+    const [local, setLocal] = useState(null);
+    const [error, setError] = useState('');
 
     async function entrar() {
-        setErro('');
-        if (!myLocal) {
-            setErro('Por favor selecione um local');
+        setError('');
+        if (!local) {
+            setError('Por favor selecione um local');
             return;
         }
 
-        try {
-            dispatch(setLocal(myLocal));
-            navigation.navigate('Home');
-        } catch (errors) {
-            setErro('Por favor selecione um local');
-        }
-    }
+        await setAuthLocal(local)
 
-    async function myAsyncEffect() {
-        dispatch(dataInRequest({ empresaId: empresa.id }));
+        navigation.navigate('Home');
     }
 
     useEffect(() => {
-        myAsyncEffect();
+        async function getLocais() {
+            setLoading(true);
+            try {
+                const response = await api.get(`/locais?empresaId=${empresa.id}`)
+                const { data } = response;
+                setLocais(data)
+                setLoading(false);
+
+            } catch (error) {
+                setLoading(false);
+                setLocais([])
+                const validation = handlingErros(error);
+                setError(validation);
+            }
+        }
+
+        getLocais();
     }, []);
 
     return (
@@ -53,7 +62,7 @@ const SelectLocal = () => {
                     placeholder="Selecione um local"
                     getLabel={(item) => item.nome}
                     onValueChange={(value) => {
-                        setMyLocal(value);
+                        setLocal(value);
                     }}
                 />
             </View>
@@ -65,7 +74,7 @@ const SelectLocal = () => {
                 size="large"
                 color="#0000ff"
             />
-            {erro.length !== 0 && <Text style={styles.error}>{erro}</Text>}
+            {error.length !== 0 && <Text style={styles.error}>{error}</Text>}
             <View style={styles.container_data}>
                 <Button mode="contained" onPress={entrar} disabled={loading}>
                     Entrar

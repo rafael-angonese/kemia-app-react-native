@@ -8,22 +8,21 @@ import {
 } from 'react-native';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import { TextInput, Snackbar, Button, HelperText } from 'react-native-paper';
-import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 
-import { dataInRequest } from '../../store/modules/usuario/actions';
-import { storeInRequest } from '../../store/modules/local/actions';
+import { useAuth } from '../../contexts/auth';
 import yupValidator from '../../utils/yupValidator';
+import handlingErros from '../../utils/handlingErros';
+import api from '../../services/api';
 
 import styles from '../Styles/styles';
 
 const New = ({ route }) => {
     const { refresh } = route.params;
+    const { empresa } = useAuth();
 
-    const { loading } = useSelector((state) => state.local);
-    const { usuarios } = useSelector((state) => state.usuario);
-    const { empresa } = useSelector((state) => state.empresa);
-    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
+    const [usuarios, setUsuarios] = useState([]);
 
     const nomeRef = useRef();
     const descricaoRef = useRef();
@@ -57,34 +56,47 @@ const New = ({ route }) => {
 
         if (Object.keys(validation).length !== 0) return;
 
-        dispatch(
-            storeInRequest(
-                {
-                    nome,
-                    descricao,
-                    endereco,
-                    users,
-                    empresa_id: empresa.id,
-                },
-                (success) => {
-                    if (!success) {
-                        setError({ request: 'Não foi possível persistir esses dados' })
-                    }
-                    if (success) {
-                        setNome('');
-                        setDescricao('');
-                        setEndereco('');
-                        setUsers([]);
-                        setSnackbar(true)
-                        refresh()
-                    }
-                }
-            )
-        );
+        setLoading(true);
+        try {
+            const response = await api.post('/locais', {
+                nome,
+                descricao,
+                endereco,
+                empresa_id: empresa.id,
+                users,
+            });
+            setLoading(false);
+            const { data } = response;
+
+            setNome('');
+            setDescricao('');
+            setEndereco('');
+            setUsers([]);
+            setSnackbar(true);
+            refresh();
+
+        } catch (error) {
+            setLoading(false);
+            const validation = handlingErros(error);
+            setError(validation);
+        }
+
     }
 
     async function myAsyncEffect() {
-        dispatch(dataInRequest({ empresaId: empresa.id }));
+        setLoading(true);
+        try {
+            const response = await api.get('users')
+            const { data } = response;
+            setUsuarios(data)
+            setLoading(false);
+
+        } catch (error) {
+            setLoading(false);
+            setUsuarios([])
+            const validation = handlingErros(error);
+            setError(validation);
+        }
     }
 
     useEffect(() => {
@@ -128,7 +140,7 @@ const New = ({ route }) => {
                     items={usuarios}
                     uniqueKey="id"
                     subKey="children"
-                    selectChildren="false"
+                    selectChildren
                     displayKey="nome"
                     selectText="Selecione usuários"
                     showDropDowns={true}
@@ -147,7 +159,7 @@ const New = ({ route }) => {
                     color="#0000ff"
                 />
                 {error.length !== 0 && (
-                    <Text style={styles.error}>{error?.request}</Text>
+                    <Text style={styles.error}>{error?.error}</Text>
                 )}
 
                 <Button

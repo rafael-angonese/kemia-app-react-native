@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Button, StyleSheet, ScrollView, Text } from 'react-native';
-import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
+import { useAuth } from '../../contexts/auth';
 import Admin from './Admin'
 
 const styles = StyleSheet.create({
@@ -15,15 +15,13 @@ const styles = StyleSheet.create({
 
 const Home = () => {
     const navigation = useNavigation();
-    const { user } = useSelector((state) => state.auth);
-    const { empresa } = useSelector((state) => state.empresa);
-    const { local } = useSelector((state) => state.local);
+    const { user, empresa, local } = useAuth();
 
     return (
         <View>
             <ScrollView>
-                <Text>Nome: {user.nome}</Text>
-                <Text>Tipo: {user.tipo}</Text>
+                <Text>Nome: {user?.nome}</Text>
+                <Text>Tipo: {user?.tipo}</Text>
                 {/* <Text>Empresa: {user.empresa_id}</Text> */}
                 <Text>Empresa: {empresa?.nome}</Text>
                 <Text>Local: {local?.nome}</Text>
@@ -31,7 +29,7 @@ const Home = () => {
                     title="Entrar"
                     onPress={() => navigation.navigate('SelectEmpresa')}
                 />
-                {(user.tipo === 'master' || user.tipo === 'admin') && <Admin />}
+                {(user?.tipo === 'master' || user?.tipo === 'admin') && <Admin />}
 
 
             </ScrollView>

@@ -3,41 +3,50 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import { FAB, Button } from 'react-native-paper';
 import { CustomPicker } from 'react-native-custom-picker';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector, useDispatch } from 'react-redux';
 
-import { dataInRequest, setEmpresa } from '../../store/modules/empresa/actions';
-
+import { useAuth } from '../../contexts/auth';
+import handlingErros from '../../utils/handlingErros';
+import api from '../../services/api';
 import styles from '../Styles/styles';
 
 const SelectEmpresa = () => {
-    const { loading, empresas } = useSelector((state) => state.empresa);
-    const dispatch = useDispatch();
-
+    const { setAuthEmpresa } = useAuth();
     const navigation = useNavigation();
-    const [myEmpresa, setMyEmpresa] = useState(null);
-    const [erro, setErro] = useState('');
+
+    const [loading, setLoading] = useState(false);
+    const [empresas, setEmpresas] = useState([]);
+    const [empresa, setEmpresa] = useState(null);
+    const [error, setError] = useState('');
 
     async function entrar() {
-        setErro('');
-        if (!myEmpresa) {
-            setErro('Por favor selecione uma empresa');
+        setError('');
+        if (!empresa) {
+            setError('Por favor selecione uma empresa');
             return;
         }
 
-        try {
-            dispatch(setEmpresa(myEmpresa));
-            navigation.navigate('SelectLocal');
-        } catch (errors) {
-            setErro('Por favor selecione uma empresa');
-        }
-    }
+        await setAuthEmpresa(empresa)
 
-    async function myAsyncEffect() {
-        dispatch(dataInRequest());
+        navigation.navigate('SelectLocal');
     }
 
     useEffect(() => {
-        myAsyncEffect();
+        async function getEmpresas() {
+            setLoading(true);
+            try {
+                const response = await api.get('/empresas')
+                const { data } = response;
+                setEmpresas(data)
+                setLoading(false);
+
+            } catch (error) {
+                setLoading(false);
+                const validation = handlingErros(error);
+                setError(validation);
+            }
+        }
+
+        getEmpresas();
     }, []);
 
     return (
@@ -52,7 +61,7 @@ const SelectEmpresa = () => {
                     placeholder="Selecione uma empresa"
                     getLabel={(item) => item.nome}
                     onValueChange={(value) => {
-                        setMyEmpresa(value);
+                        setEmpresa(value);
                     }}
                 />
             </View>
@@ -64,7 +73,7 @@ const SelectEmpresa = () => {
                 size="large"
                 color="#0000ff"
             />
-            {erro.length !== 0 && <Text style={styles.error}>{erro}</Text>}
+            {error.length !== 0 && <Text style={styles.error}>{error}</Text>}
             <View style={styles.container_data}>
                 <Button mode="contained" onPress={entrar} disabled={loading}>
                     Entrar

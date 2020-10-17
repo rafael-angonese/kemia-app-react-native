@@ -9,38 +9,37 @@ import {
 import { TextInput, Snackbar, Button, HelperText } from 'react-native-paper';
 import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
-import yupValidator from '../../utils/yupValidator';
-
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
-import { useSelector, useDispatch } from 'react-redux';
-import { dataInRequest } from '../../store/modules/usuario/actions';
-import { updateInRequest } from '../../store/modules/local/actions';
+
+import { useAuth } from '../../contexts/auth';
+import yupValidator from '../../utils/yupValidator';
+import handlingErros from '../../utils/handlingErros';
+import api from '../../services/api';
 
 import styles from '../Styles/styles';
 
 const Edit = ({ route }) => {
-    const { loading } = useSelector((state) => state.local);
-    const { usuarios } = useSelector((state) => state.usuario);
-    const { empresa } = useSelector((state) => state.empresa);
-    const dispatch = useDispatch();
-
+    const { item } = route.params;
+    const { refresh } = route.params;
     const navigation = useNavigation();
+    const { empresa } = useAuth();
+
+    const [loading, setLoading] = useState(false);
+    const [usuarios, setUsuarios] = useState([]);
 
     const nomeRef = useRef();
     const descricaoRef = useRef();
     const enderecoRef = useRef();
 
-    const { refresh } = route.params;
-    const { item } = route.params;
     const [nome, setNome] = useState(item.nome);
     const [descricao, setDescricao] = useState(item.descricao);
     const [endereco, setEndereco] = useState(item.endereco);
-    const [users, setUsuario] = useState([]);
+    const [users, setUsers] = useState([]);
     const [error, setError] = useState({});
     const [snackbar, setSnackbar] = useState(false);
 
     const onSelectedItemsChange = (usuario) => {
-        setUsuario(usuario);
+        setUsers(usuario);
     };
 
     async function salvar() {
@@ -60,38 +59,50 @@ const Edit = ({ route }) => {
 
         if (Object.keys(validation).length !== 0) return;
 
-        dispatch(
-            updateInRequest(
-                {
-                    id: item.id,
-                    nome,
-                    descricao,
-                    endereco,
-                    users,
-                    empresa_id: empresa.id,
-                },
-                (success) => {
-                    if (!success) {
-                        setError({
-                            request: 'Não foi possível persistir esses dados',
-                        });
-                    }
-                    if (success) {
-                        refresh();
-                        navigation.navigate('LocalList');
-                    }
-                }
-            )
-        );
+        setLoading(true);
+        try {
+            const response = await api.put(`/locais/${item.id}`, {
+                nome,
+                descricao,
+                endereco,
+                users,
+                empresa_id: empresa.id,
+            });
+            setLoading(false);
+            const { data } = response;
+
+            setNome('');
+            setDescricao('');
+            setEndereco('');
+            setUsers([]);
+            setSnackbar(true);
+            refresh();
+            navigation.navigate('LocalList');
+        } catch (error) {
+            setLoading(false);
+            const validation = handlingErros(error);
+            setError(validation);
+        }
     }
 
     async function myAsyncEffect() {
-        dispatch(dataInRequest({ empresaId: empresa.id }));
+        setLoading(true);
+        try {
+            const response = await api.get('users');
+            setLoading(false);
+            const { data } = response;
+            setUsuarios(data);
 
-        let users = item.users.map((item) => {
-            return item.id;
-        });
-        setUsuario(users);
+            const selected_users = item.users.map((item) => {
+                return item.id;
+            });
+            setUsers(selected_users);
+        } catch (error) {
+            setLoading(false);
+            setUsuarios([]);
+            const validation = handlingErros(error);
+            setError(validation);
+        }
     }
 
     useEffect(() => {

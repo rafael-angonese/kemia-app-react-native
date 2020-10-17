@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useSelector } from 'react-redux';
 
+import { useAuth } from '../contexts/auth';
 import Home from '../pages/Home';
 import SelectEmpresa from '../pages/Empresa/Select';
 
@@ -14,13 +14,13 @@ import LocalEdit from '../pages/Local/Edit';
 const HomeStack = createStackNavigator();
 
 const HomeRoutes = () => {
-    const { user } = useSelector((state) => state.auth);
+    const { user } = useAuth();
 
     return (
         <HomeStack.Navigator>
             <HomeStack.Screen name="Home" component={Home} />
 
-            {user.tipo === 'master' && (
+            {user?.tipo === 'master' && (
                 <HomeStack.Screen
                     name="SelectEmpresa"
                     options={{ title: 'Empresa' }}
@@ -47,7 +47,7 @@ const HomeRoutes = () => {
                 options={{ title: 'Local' }}
                 component={LocalShow}
             />
-             <HomeStack.Screen
+            <HomeStack.Screen
                 name="LocalEdit"
                 options={{ title: 'Local' }}
                 component={LocalEdit}
