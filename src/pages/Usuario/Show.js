@@ -19,15 +19,15 @@ const Show = ({ route }) => {
     const [loading, setLoading] = useState(false);
 
     async function excluir() {
-        setDialog(false)
-        setLoading(true)
+        setDialog(false);
+        setLoading(true);
         try {
-            const response = await api.delete('/locais/' + item.id);
-            setLoading(false)
-            refresh()
-            navigation.navigate('LocalList')
+            const response = await api.delete('/users/' + item.id);
+            setLoading(false);
+            refresh();
+            navigation.navigate('UsuarioList');
         } catch (error) {
-            setLoading(false)
+            setLoading(false);
             // setError('Não foi possível excluir este local.')
             const validation = handlingErros(error);
             setError(validation);
@@ -47,25 +47,36 @@ const Show = ({ route }) => {
                 <Text style={styles.error}>{error?.error}</Text>
             )}
 
-            <Text style={styles.title_view}>Detalhes do local</Text>
+            <Text style={styles.title_view}>Detalhes do usuário</Text>
             <Text>Nome: {item.nome}</Text>
-            <Text>Endereço: {item.endereco}</Text>
-            <Text>Descrição: {item.descricao}</Text>
-            <Text>Usuarios:</Text>
-            <View style={styles.container_row}>
-                {item.users.map((item, index) => (
-                    <Chip key={item.id} icon="account">
-                        {item.nome}
-                    </Chip>
-                ))}
-            </View>
+            <Text>Login: {item.username}</Text>
+            <Text>
+                Tipo:{' '}
+                {item.tipo == 'master'
+                    ? 'Master'
+                    : item.tipo == 'admin'
+                    ? 'Administrador'
+                    : 'Operador'}
+            </Text>
+
+            {item.tipo == 'operator' && <Text>Locais:</Text>}
+
+            {item.tipo == 'operator' && (
+                <View style={styles.container_row}>
+                    {item.locais.map((item, index) => (
+                        <Chip key={item.id} icon="flag">
+                            {item.nome}
+                        </Chip>
+                    ))}
+                </View>
+            )}
             <View style={styles.container_row}>
                 <Button
                     style={styles.button_radius}
                     icon="pencil"
                     mode="contained"
                     onPress={() =>
-                        navigation.navigate('LocalEdit', {
+                        navigation.navigate('UsuarioEdit', {
                             item: item,
                             refresh: refresh.bind(this),
                         })

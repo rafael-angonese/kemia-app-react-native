@@ -11,6 +11,16 @@ import LocalNew from '../pages/Local/New';
 import LocalShow from '../pages/Local/Show';
 import LocalEdit from '../pages/Local/Edit';
 
+import UsuarioList from '../pages/Usuario/List';
+import UsuarioNew from '../pages/Usuario/New';
+import UsuarioShow from '../pages/Usuario/Show';
+import UsuarioEdit from '../pages/Usuario/Edit';
+
+import TanqueList from '../pages/Tanque/List';
+import TanqueNew from '../pages/Tanque/New';
+import TanqueShow from '../pages/Tanque/Show';
+import TanqueEdit from '../pages/Tanque/Edit';
+
 const HomeStack = createStackNavigator();
 
 const HomeRoutes = () => {
@@ -27,6 +37,7 @@ const HomeRoutes = () => {
                     component={SelectEmpresa}
                 />
             )}
+
             <HomeStack.Screen
                 name="SelectLocal"
                 options={{ title: 'Local' }}
@@ -52,6 +63,49 @@ const HomeRoutes = () => {
                 options={{ title: 'Local' }}
                 component={LocalEdit}
             />
+
+            <HomeStack.Screen
+                name="UsuarioList"
+                options={{ title: 'Usuários' }}
+                component={UsuarioList}
+            />
+            <HomeStack.Screen
+                name="UsuarioNew"
+                options={{ title: 'Usuário' }}
+                component={UsuarioNew}
+            />
+            <HomeStack.Screen
+                name="UsuarioShow"
+                options={{ title: 'Usuário' }}
+                component={UsuarioShow}
+            />
+            <HomeStack.Screen
+                name="UsuarioEdit"
+                options={{ title: 'Usuário' }}
+                component={UsuarioEdit}
+            />
+
+            <HomeStack.Screen
+                name="TanqueList"
+                options={{ title: 'Tanques' }}
+                component={TanqueList}
+            />
+            <HomeStack.Screen
+                name="TanqueNew"
+                options={{ title: 'Tanque' }}
+                component={TanqueNew}
+            />
+            <HomeStack.Screen
+                name="TanqueShow"
+                options={{ title: 'Tanque' }}
+                component={TanqueShow}
+            />
+            <HomeStack.Screen
+                name="TanqueEdit"
+                options={{ title: 'Tanque' }}
+                component={TanqueEdit}
+            />
+
             {/* <HomeStack.Screen name="Home" component={Home} /> */}
         </HomeStack.Navigator>
     );

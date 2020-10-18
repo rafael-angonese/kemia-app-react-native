@@ -22,10 +22,10 @@ const Show = ({ route }) => {
         setDialog(false)
         setLoading(true)
         try {
-            const response = await api.delete('/locais/' + item.id);
+            const response = await api.delete('/tanques/' + item.id);
             setLoading(false)
             refresh()
-            navigation.navigate('LocalList')
+            navigation.navigate('TanqueList')
         } catch (error) {
             setLoading(false)
             // setError('Não foi possível excluir este local.')
@@ -47,25 +47,17 @@ const Show = ({ route }) => {
                 <Text style={styles.error}>{error?.error}</Text>
             )}
 
-            <Text style={styles.title_view}>Detalhes do local</Text>
+            <Text style={styles.title_view}>Detalhes do tanque</Text>
             <Text>Nome: {item.nome}</Text>
-            <Text>Endereço: {item.endereco}</Text>
             <Text>Descrição: {item.descricao}</Text>
-            <Text>Usuarios:</Text>
-            <View style={styles.container_row}>
-                {item.users.map((item, index) => (
-                    <Chip key={item.id} icon="account">
-                        {item.nome}
-                    </Chip>
-                ))}
-            </View>
+
             <View style={styles.container_row}>
                 <Button
                     style={styles.button_radius}
                     icon="pencil"
                     mode="contained"
                     onPress={() =>
-                        navigation.navigate('LocalEdit', {
+                        navigation.navigate('TanqueEdit', {
                             item: item,
                             refresh: refresh.bind(this),
                         })

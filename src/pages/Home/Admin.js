@@ -16,22 +16,14 @@ const Admin = (props) => {
                     navigation.navigate('configuracao_list')
                 }}
             />
-            <List.Item
+            */}
+            <Menu.Item
+                icon="account"
+                onPress={() => {
+                    navigation.navigate('UsuarioList');
+                }}
                 title="Usuários"
-                description="usuários"
-                left={props => <List.Icon {...props} icon="account" />}
-                onPress={() => {
-                    navigation.navigate('usuario_list')
-                }}
-            /> */}
-            {/* <List.Item
-                title="Locais"
-                description="Estações de tratamento"
-                left={props => <List.Icon {...props} icon="flag" />}
-                onPress={() => {
-                    navigation.navigate('local_list')
-                }}
-            /> */}
+            />
             <Menu.Item
                 icon="flag"
                 onPress={() => {
@@ -47,13 +39,12 @@ const Admin = (props) => {
                     navigation.navigate('agenda_list')
                 }}
             /> */}
-            <List.Item
-                title="Tanques"
-                description="tanques"
-                left={(props) => <List.Icon {...props} icon="engine" />}
+            <Menu.Item
+                icon="engine"
                 onPress={() => {
-                    navigation.navigate('tanque_list');
+                    navigation.navigate('TanqueList');
                 }}
+                title="Tanques"
             />
             <List.Item
                 title="Equipamentos"
