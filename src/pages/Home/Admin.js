@@ -46,15 +46,12 @@ const Admin = (props) => {
                 }}
                 title="Tanques"
             />
-            <List.Item
-                title="Equipamentos"
-                // description="esquipamentos"
-                left={(props) => (
-                    <List.Icon {...props} icon="robot-industrial" />
-                )}
+            <Menu.Item
+                icon="robot-industrial"
                 onPress={() => {
-                    navigation.navigate('equipamento_list');
+                    navigation.navigate('EquipamentoList');
                 }}
+                title="Equipamentos"
             />
             {/* <List.Item
                 title="Etas"

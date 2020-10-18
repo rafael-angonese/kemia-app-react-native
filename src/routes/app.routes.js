@@ -21,6 +21,11 @@ import TanqueNew from '../pages/Tanque/New';
 import TanqueShow from '../pages/Tanque/Show';
 import TanqueEdit from '../pages/Tanque/Edit';
 
+import EquipamentoList from '../pages/Equipamento/List';
+import EquipamentoNew from '../pages/Equipamento/New';
+import EquipamentoShow from '../pages/Equipamento/Show';
+import EquipamentoEdit from '../pages/Equipamento/Edit';
+
 const HomeStack = createStackNavigator();
 
 const HomeRoutes = () => {
@@ -104,6 +109,27 @@ const HomeRoutes = () => {
                 name="TanqueEdit"
                 options={{ title: 'Tanque' }}
                 component={TanqueEdit}
+            />
+
+            <HomeStack.Screen
+                name="EquipamentoList"
+                options={{ title: 'Equipamentos' }}
+                component={EquipamentoList}
+            />
+            <HomeStack.Screen
+                name="EquipamentoNew"
+                options={{ title: 'Equipamento' }}
+                component={EquipamentoNew}
+            />
+            <HomeStack.Screen
+                name="EquipamentoShow"
+                options={{ title: 'Equipamento' }}
+                component={EquipamentoShow}
+            />
+            <HomeStack.Screen
+                name="EquipamentoEdit"
+                options={{ title: 'Equipamento' }}
+                component={EquipamentoEdit}
             />
 
             {/* <HomeStack.Screen name="Home" component={Home} /> */}
