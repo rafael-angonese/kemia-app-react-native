@@ -1,0 +1,119 @@
+import React, { useEffect, useState } from 'react';
+import {
+    View,
+    Text,
+    ActivityIndicator,
+    ScrollView,
+    TouchableOpacity,
+} from 'react-native';
+import { FAB, DataTable } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+
+import { useAuth } from '../../contexts/auth';
+import handlingErros from '../../utils/handlingErros';
+import formatDate from '../../utils/formatDate';
+import api from '../../services/api';
+import styles from '../Styles/styles';
+
+const List = () => {
+    const { empresa } = useAuth();
+    const [loading, setLoading] = useState(false);
+    const [locais, setLocais] = useState([]);
+    const [error, setError] = useState('');
+
+    const navigation = useNavigation();
+
+    async function myAsyncEffect() {
+        setLoading(true);
+        try {
+            const response = await api.get(
+                `/equipamento-manutencaos?empresaId=${empresa.id}`
+            );
+            const { data } = response;
+            setLocais(data);
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            setLocais([]);
+            const validation = handlingErros(error);
+            setError(validation);
+        }
+    }
+
+    useEffect(() => {
+        myAsyncEffect();
+    }, []);
+
+    return (
+        <View style={{ flex: 1 }}>
+            <ActivityIndicator
+                style={
+                    loading === true ? { display: 'flex' } : { display: 'none' }
+                }
+                size="large"
+                color="#0000ff"
+            />
+            {error.length !== 0 && (
+                <Text style={styles.error}>{error?.error}</Text>
+            )}
+
+            <ScrollView>
+                <ScrollView
+                    horizontal
+                    contentContainerStyle={{ width: 500, height: '100%' }}
+                >
+                    <DataTable>
+                        <DataTable.Header>
+                            <DataTable.Title>Saída</DataTable.Title>
+                            <DataTable.Title>Retorno</DataTable.Title>
+                            <DataTable.Title>Problema</DataTable.Title>
+                            <DataTable.Title>Equipamento</DataTable.Title>
+                        </DataTable.Header>
+                        {locais.map((item, index) => (
+                            <TouchableOpacity
+                                key={item.id}
+                                onPress={() => {
+                                    navigation.navigate('EquipamentoManutencaoShow', {
+                                        item: item,
+                                        refresh: myAsyncEffect.bind(this),
+                                    });
+                                }}
+                            >
+                                <DataTable.Row>
+                                    <DataTable.Cell>
+                                        {formatDate(item.saida)}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell>
+                                        {formatDate(item.retorno)}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell>
+                                        {item.problema}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell>
+                                        {item?.equipamento?.nome}
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            </TouchableOpacity>
+                        ))}
+                    </DataTable>
+                </ScrollView>
+                {locais.length == 0 && (
+                    <Text style={styles.empty}>Desculpa, não há dados!</Text>
+                )}
+            </ScrollView>
+
+            <FAB
+                label="novo"
+                style={styles.fab}
+                icon="plus"
+                onPress={() =>
+                    navigation.navigate('EquipamentoManutencaoNew', {
+                        refresh: myAsyncEffect.bind(this),
+                    })
+                }
+            />
+        </View>
+    );
+};
+
+export default List;

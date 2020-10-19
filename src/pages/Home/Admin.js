@@ -53,6 +53,16 @@ const Admin = (props) => {
                 }}
                 title="Equipamentos"
             />
+            <List.Item
+                title="Equipamentos em Manutenção"
+                description="controle de equipamentos em manutenção"
+                left={(props) => (
+                    <List.Icon {...props} icon="robot-industrial" />
+                )}
+                onPress={() => {
+                    navigation.navigate('EquipamentoManutencaoList');
+                }}
+            />
             {/* <List.Item
                 title="Etas"
                 description="Estações de tratamento de água"
@@ -69,16 +79,6 @@ const Admin = (props) => {
                     navigation.navigate('lagoa_list')
                 }}
             /> */}
-            <List.Item
-                title="Equipamentos em Manutenção"
-                description="controle de equipamentos em manutenção"
-                left={(props) => (
-                    <List.Icon {...props} icon="robot-industrial" />
-                )}
-                onPress={() => {
-                    navigation.navigate('equipamento_manutencao_list');
-                }}
-            />
             <List.Item
                 title="Controle Concentração de Cloro"
                 description="controle de concentração de cloro"

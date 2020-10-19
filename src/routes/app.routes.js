@@ -26,6 +26,11 @@ import EquipamentoNew from '../pages/Equipamento/New';
 import EquipamentoShow from '../pages/Equipamento/Show';
 import EquipamentoEdit from '../pages/Equipamento/Edit';
 
+import EquipamentoManutencaoList from '../pages/EquipamentoManutencao/List';
+import EquipamentoManutencaoNew from '../pages/EquipamentoManutencao/New';
+import EquipamentoManutencaoShow from '../pages/EquipamentoManutencao/Show';
+import EquipamentoManutencaoEdit from '../pages/EquipamentoManutencao/Edit';
+
 const HomeStack = createStackNavigator();
 
 const HomeRoutes = () => {
@@ -130,6 +135,26 @@ const HomeRoutes = () => {
                 name="EquipamentoEdit"
                 options={{ title: 'Equipamento' }}
                 component={EquipamentoEdit}
+            />
+            <HomeStack.Screen
+                name="EquipamentoManutencaoList"
+                options={{ title: 'Equipamento em Manutenção' }}
+                component={EquipamentoManutencaoList}
+            />
+            <HomeStack.Screen
+                name="EquipamentoManutencaoNew"
+                options={{ title: 'Equipamento em Manutenção' }}
+                component={EquipamentoManutencaoNew}
+            />
+            <HomeStack.Screen
+                name="EquipamentoManutencaoShow"
+                options={{ title: 'Equipamento em Manutenção' }}
+                component={EquipamentoManutencaoShow}
+            />
+            <HomeStack.Screen
+                name="EquipamentoManutencaoEdit"
+                options={{ title: 'Equipamento em Manutenção' }}
+                component={EquipamentoManutencaoEdit}
             />
 
             {/* <HomeStack.Screen name="Home" component={Home} /> */}
