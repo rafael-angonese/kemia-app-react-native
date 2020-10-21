@@ -24,28 +24,27 @@ const New = ({ route }) => {
     const { empresa, local } = useAuth();
 
     const [loading, setLoading] = useState(false);
-    const [equipamentos, setEquipamentos] = useState([]);
 
-    const [saida, setSaida] = useState(Date.now());
-    const [retorno, setRetorno] = useState(null);
-    const [problema, setProblema] = useState('');
-    const [equipamento, setEquipamento] = useState([]);
+    const [data, setData] = useState(Date.now());
+    const [hora, setHora] = useState(Date.now());
+    const [tratado, setTratado] = useState('');
+    const [acaoCorretiva, setAcaoCorretiva] = useState('');
 
-    const [show_saida, setShow_saida] = useState(false);
-    const [show_retorno, setShow_retorno] = useState(false);
+    const [show_data, setShow_data] = useState(false);
+    const [show_hora, setShow_hora] = useState(false);
 
     const [snackbar, setSnackbar] = useState(false);
     const [error, setError] = useState({});
 
     async function salvar() {
         const schema = Yup.object().shape({
-            problema: Yup.string().min(2).required('Problema é obrigatório'),
-            equipamento: Yup.string().required('Equipamento é obrigatório'),
+            tratado: Yup.string().min(1).required('Problema é obrigatório'),
+            acaoCorretiva: Yup.string().required('Equipamento é obrigatório'),
         });
 
         const validation = await yupValidator(schema, {
-            problema,
-            equipamento,
+            tratado,
+            acaoCorretiva,
         });
 
         setError(validation);
@@ -54,23 +53,21 @@ const New = ({ route }) => {
 
         setLoading(true);
         try {
-            const response = await api.post('/equipamento-manutencaos', {
-                saida: formatDate(saida, 'yyyy-MM-dd '),
-                retorno:
-                    retorno === null
-                        ? null
-                        : formatDate(retorno, 'yyyy-MM-dd '),
-                problema,
-                equipamento_id: equipamento.id,
+            const response = await api.post('/controle-concentracao-cloros', {
+                data: formatDate(data, 'yyyy-MM-dd'),
+                hora: formatDate(hora, 'yyyy-MM-dd HH:mm:ss'),
+                tratado,
+                acao_corretiva: acaoCorretiva,
                 empresa_id: empresa.id,
                 local_id: local.id,
             });
             setLoading(false);
-            const { data } = response;
+            // const { data } = response;
 
-            setSaida(Date.now());
-            setRetorno(null);
-            setProblema('');
+            setData(Date.now());
+            setHora(Date.now());
+            setTratado('');
+            setAcaoCorretiva('');
             setSnackbar(true);
             refresh();
         } catch (error) {
@@ -80,96 +77,63 @@ const New = ({ route }) => {
         }
     }
 
-    async function myAsyncEffect() {
-        setLoading(true);
-        try {
-            const response = await api.get(`equipamentos?localId=${local.id}`);
-            const { data } = response;
-            setEquipamentos(data);
-            setLoading(false);
-        } catch (error) {
-            setLoading(false);
-            setEquipamentos([]);
-            const validation = handlingErros(error);
-            setError(validation);
-        }
-    }
-
-    useEffect(() => {
-        myAsyncEffect();
-    }, []);
-
     return (
         <View style={{ flex: 1 }}>
             <ScrollView>
                 <View style={styles.container_data}>
-                    <Text>Saída:</Text>
-                    <Button icon="calendar" onPress={() => setShow_saida(true)}>
-                        {formatDate(saida)}
+                    <Text style={{ marginLeft: 5, marginTop: 40 }}>Data:</Text>
+                    <Button icon="calendar" onPress={() => setShow_data(true)}>
+                        {formatDate(data)}
                     </Button>
-                </View>
-                <View style={styles.container_data}>
-                    <Text>Retorno:</Text>
-                    <Button
-                        icon="calendar"
-                        onPress={() => setShow_retorno(true)}
-                    >
-                        {retorno === null
-                            ? 'Não retornado'
-                            : formatDate(retorno)}
+                    <Button icon="calendar" onPress={() => setShow_hora(true)}>
+                        {formatDate(hora, 'HH:mm:ss')}
                     </Button>
                 </View>
 
-                <View>
-                    <Text>Equipamento:</Text>
-                    <CustomPicker
-                        options={equipamentos}
-                        value={equipamento}
-                        placeholder="Selecione um equipamento"
-                        getLabel={(item) => item.nome}
-                        onValueChange={(value) => {
-                            setEquipamento(value);
-                        }}
-                    />
-                </View>
+                <TextInput
+                    label="Tratado:"
+                    value={tratado}
+                    keyboardType={'numeric'}
+                    onChangeText={(text) => setTratado(text)}
+                />
                 <HelperText type="error" visible={true}>
-                    {error?.equipamento}
+                    {error?.tratado}
                 </HelperText>
 
                 <TextInput
-                    label="Problema:"
-                    value={problema}
-                    onChangeText={(text) => setProblema(text)}
+                    label="Ação Corretiva:"
+                    value={acaoCorretiva}
+                    onChangeText={(text) => setAcaoCorretiva(text)}
                 />
                 <HelperText type="error" visible={true}>
-                    {error?.problema}
+                    {error?.acaoCorretiva}
                 </HelperText>
 
-                {show_saida && (
+                {show_data && (
                     <DateTimePicker
-                        value={saida}
+                        value={data}
                         mode="date"
                         is24Hour={true}
                         display="default"
                         onChange={(event, date) => {
-                            setShow_saida(false);
+                            setShow_data(false);
                             if (typeof date !== 'undefined') {
-                                setSaida(date);
+                                setData(date);
                             }
                         }}
                     />
                 )}
 
-                {show_retorno && (
+                {show_hora && (
                     <DateTimePicker
-                        value={retorno == null ? Date.now() : retorno}
-                        mode="date"
+                        mode="time"
+                        value={hora}
                         is24Hour={true}
                         display="default"
                         onChange={(event, date) => {
-                            setShow_retorno(false);
+                            setShow_hora(false);
                             if (typeof date !== 'undefined') {
-                                setRetorno(date);
+                                setHora(date);
                             }
                         }}
                     />

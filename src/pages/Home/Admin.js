@@ -63,6 +63,16 @@ const Admin = (props) => {
                     navigation.navigate('EquipamentoManutencaoList');
                 }}
             />
+            <List.Item
+                title="Controle Concentração de Cloro"
+                description="controle de concentração de cloro"
+                left={(props) => (
+                    <List.Icon {...props} icon="format-list-checks" />
+                )}
+                onPress={() => {
+                    navigation.navigate('ConcentracaoCloroList');
+                }}
+            />
             {/* <List.Item
                 title="Etas"
                 description="Estações de tratamento de água"
@@ -79,16 +89,6 @@ const Admin = (props) => {
                     navigation.navigate('lagoa_list')
                 }}
             /> */}
-            <List.Item
-                title="Controle Concentração de Cloro"
-                description="controle de concentração de cloro"
-                left={(props) => (
-                    <List.Icon {...props} icon="format-list-checks" />
-                )}
-                onPress={() => {
-                    navigation.navigate('controle_concentracao_cloro_list');
-                }}
-            />
             <List.Item
                 title="Controle Pastilha de Cloro"
                 description="controle de pastilha de cloro"

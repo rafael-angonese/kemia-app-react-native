@@ -31,6 +31,11 @@ import EquipamentoManutencaoNew from '../pages/EquipamentoManutencao/New';
 import EquipamentoManutencaoShow from '../pages/EquipamentoManutencao/Show';
 import EquipamentoManutencaoEdit from '../pages/EquipamentoManutencao/Edit';
 
+import ConcentracaoCloroList from '../pages/ConcentracaoCloro/List';
+import ConcentracaoCloroNew from '../pages/ConcentracaoCloro/New';
+import ConcentracaoCloroShow from '../pages/ConcentracaoCloro/Show';
+import ConcentracaoCloroEdit from '../pages/ConcentracaoCloro/Edit';
+
 const HomeStack = createStackNavigator();
 
 const HomeRoutes = () => {
@@ -157,7 +162,26 @@ const HomeRoutes = () => {
                 component={EquipamentoManutencaoEdit}
             />
 
-            {/* <HomeStack.Screen name="Home" component={Home} /> */}
+            <HomeStack.Screen
+                name="ConcentracaoCloroList"
+                options={{ title: 'Concentração de Cloro' }}
+                component={ConcentracaoCloroList}
+            />
+            <HomeStack.Screen
+                name="ConcentracaoCloroNew"
+                options={{ title: 'Concentração de Cloro' }}
+                component={ConcentracaoCloroNew}
+            />
+            <HomeStack.Screen
+                name="ConcentracaoCloroShow"
+                options={{ title: 'Concentração de Cloro' }}
+                component={ConcentracaoCloroShow}
+            />
+            <HomeStack.Screen
+                name="ConcentracaoCloroEdit"
+                options={{ title: 'Concentração de Cloro' }}
+                component={ConcentracaoCloroEdit}
+            />
         </HomeStack.Navigator>
     );
 };
