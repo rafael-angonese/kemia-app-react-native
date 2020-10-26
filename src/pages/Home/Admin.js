@@ -73,6 +73,26 @@ const Admin = (props) => {
                     navigation.navigate('ConcentracaoCloroList');
                 }}
             />
+            <List.Item
+                title="Controle Pastilha de Cloro"
+                description="controle de pastilha de cloro"
+                left={(props) => (
+                    <List.Icon {...props} icon="format-list-checks" />
+                )}
+                onPress={() => {
+                    navigation.navigate('PastilhaCloroList');
+                }}
+            />
+            <List.Item
+                title="Controle de Coletas"
+                description="planilha de controle de coleta"
+                left={(props) => (
+                    <List.Icon {...props} icon="format-list-checks" />
+                )}
+                onPress={() => {
+                    navigation.navigate('ControleColetaList');
+                }}
+            />
             {/* <List.Item
                 title="Etas"
                 description="Estações de tratamento de água"
@@ -89,26 +109,6 @@ const Admin = (props) => {
                     navigation.navigate('lagoa_list')
                 }}
             /> */}
-            <List.Item
-                title="Controle Pastilha de Cloro"
-                description="controle de pastilha de cloro"
-                left={(props) => (
-                    <List.Icon {...props} icon="format-list-checks" />
-                )}
-                onPress={() => {
-                    navigation.navigate('controle_pastilha_cloro_list');
-                }}
-            />
-            <List.Item
-                title="Controle de Coletas"
-                description="planilha de controle de coleta"
-                left={(props) => (
-                    <List.Icon {...props} icon="format-list-checks" />
-                )}
-                onPress={() => {
-                    navigation.navigate('controle_coleta_list');
-                }}
-            />
             <List.Item
                 title="Controle de OD"
                 description="planilha de controle de OD"

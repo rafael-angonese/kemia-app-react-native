@@ -36,6 +36,16 @@ import ConcentracaoCloroNew from '../pages/ConcentracaoCloro/New';
 import ConcentracaoCloroShow from '../pages/ConcentracaoCloro/Show';
 import ConcentracaoCloroEdit from '../pages/ConcentracaoCloro/Edit';
 
+import PastilhaCloroList from '../pages/PastilhaCloro/List';
+import PastilhaCloroNew from '../pages/PastilhaCloro/New';
+import PastilhaCloroShow from '../pages/PastilhaCloro/Show';
+import PastilhaCloroEdit from '../pages/PastilhaCloro/Edit';
+
+import ControleColetaList from '../pages/ControleColeta/List';
+import ControleColetaNew from '../pages/ControleColeta/New';
+import ControleColetaShow from '../pages/ControleColeta/Show';
+import ControleColetaEdit from '../pages/ControleColeta/Edit';
+
 const HomeStack = createStackNavigator();
 
 const HomeRoutes = () => {
@@ -181,6 +191,48 @@ const HomeRoutes = () => {
                 name="ConcentracaoCloroEdit"
                 options={{ title: 'Concentração de Cloro' }}
                 component={ConcentracaoCloroEdit}
+            />
+
+            <HomeStack.Screen
+                name="PastilhaCloroList"
+                options={{ title: 'Pastilha de Cloro' }}
+                component={PastilhaCloroList}
+            />
+            <HomeStack.Screen
+                name="PastilhaCloroNew"
+                options={{ title: 'Pastilha de Cloro' }}
+                component={PastilhaCloroNew}
+            />
+            <HomeStack.Screen
+                name="PastilhaCloroShow"
+                options={{ title: 'Pastilha de Cloro' }}
+                component={PastilhaCloroShow}
+            />
+            <HomeStack.Screen
+                name="PastilhaCloroEdit"
+                options={{ title: 'Pastilha de Cloro' }}
+                component={PastilhaCloroEdit}
+            />
+
+            <HomeStack.Screen
+                name="ControleColetaList"
+                options={{ title: 'Controle Coleta' }}
+                component={ControleColetaList}
+            />
+            <HomeStack.Screen
+                name="ControleColetaNew"
+                options={{ title: 'Controle Coleta' }}
+                component={ControleColetaNew}
+            />
+            <HomeStack.Screen
+                name="ControleColetaShow"
+                options={{ title: 'Controle Coleta' }}
+                component={ControleColetaShow}
+            />
+            <HomeStack.Screen
+                name="ControleColetaEdit"
+                options={{ title: 'Controle Coleta' }}
+                component={ControleColetaEdit}
             />
         </HomeStack.Navigator>
     );
