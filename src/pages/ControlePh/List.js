@@ -18,7 +18,7 @@ import styles from '../Styles/styles';
 const List = () => {
     const { empresa, local } = useAuth();
     const [loading, setLoading] = useState(false);
-    const [pastilhaCloro, setPastilhaCloro] = useState([]);
+    const [concentracaoCloro, setConcentracaoCloro] = useState([]);
     const [error, setError] = useState('');
 
     const navigation = useNavigation();
@@ -26,15 +26,13 @@ const List = () => {
     async function myAsyncEffect() {
         setLoading(true);
         try {
-            const response = await api.get(
-                `/controle-coletas?localId=${local.id}`
-            );
+            const response = await api.get(`/controle-phs?localId=${local.id}`);
             const { data } = response;
-            setPastilhaCloro(data);
+            setConcentracaoCloro(data);
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            setPastilhaCloro([]);
+            setConcentracaoCloro([]);
             const validation = handlingErros(error);
             setError(validation);
         }
@@ -65,19 +63,25 @@ const List = () => {
                     <DataTable>
                         <DataTable.Header>
                             <DataTable.Title>Data</DataTable.Title>
-                            <DataTable.Title>Status da Coleta</DataTable.Title>
-                            <DataTable.Title>
-                                Condição da Coleta
-                            </DataTable.Title>
+                            <DataTable.Title>Hora</DataTable.Title>
+                            <DataTable.Title>Bruto</DataTable.Title>
+                            <DataTable.Title>Reator 1</DataTable.Title>
+                            <DataTable.Title>Reator 2</DataTable.Title>
+                            <DataTable.Title>Reator 3</DataTable.Title>
+                            <DataTable.Title>Tratado</DataTable.Title>
+                            <DataTable.Title>Ação Corretiva</DataTable.Title>
                         </DataTable.Header>
-                        {pastilhaCloro.map((item, index) => (
+                        {concentracaoCloro.map((item, index) => (
                             <TouchableOpacity
                                 key={item.id}
                                 onPress={() => {
-                                    navigation.navigate('ControleColetaShow', {
-                                        item: item,
-                                        refresh: myAsyncEffect.bind(this),
-                                    });
+                                    navigation.navigate(
+                                        'ControlePhShow',
+                                        {
+                                            item: item,
+                                            refresh: myAsyncEffect.bind(this),
+                                        }
+                                    );
                                 }}
                             >
                                 <DataTable.Row>
@@ -85,24 +89,32 @@ const List = () => {
                                         {formatDate(item.data)}
                                     </DataTable.Cell>
                                     <DataTable.Cell>
-                                        {item.status_coleta == 1
-                                            ? 'Realizada'
-                                            : 'Adiada'}
+                                        {item.hora.slice(0, -3)}
                                     </DataTable.Cell>
                                     <DataTable.Cell>
-                                        {' '}
-                                        {item.condicao_coleta == 1
-                                            ? 'Ensoralada'
-                                            : item.condicao_coleta == 2
-                                            ? 'Chuvoso'
-                                            : 'Garoa'}
+                                        {item.bruto}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell>
+                                        {item.reator_1}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell>
+                                        {item.reator_2}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell>
+                                        {item.reator_3}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell>
+                                        {item.tratado}
+                                    </DataTable.Cell>
+                                    <DataTable.Cell>
+                                        {item.acao_corretiva}
                                     </DataTable.Cell>
                                 </DataTable.Row>
                             </TouchableOpacity>
                         ))}
                     </DataTable>
                 </ScrollView>
-                {pastilhaCloro.length == 0 && (
+                {concentracaoCloro.length == 0 && (
                     <Text style={styles.empty}>Desculpa, não há dados!</Text>
                 )}
             </ScrollView>
@@ -112,7 +124,7 @@ const List = () => {
                 style={styles.fab}
                 icon="plus"
                 onPress={() =>
-                    navigation.navigate('ControleColetaNew', {
+                    navigation.navigate('ControlePhNew', {
                         refresh: myAsyncEffect.bind(this),
                     })
                 }

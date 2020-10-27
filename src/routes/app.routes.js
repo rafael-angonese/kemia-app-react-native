@@ -46,6 +46,21 @@ import ControleColetaNew from '../pages/ControleColeta/New';
 import ControleColetaShow from '../pages/ControleColeta/Show';
 import ControleColetaEdit from '../pages/ControleColeta/Edit';
 
+import ControleOdList from '../pages/ControleOd/List';
+import ControleOdNew from '../pages/ControleOd/New';
+import ControleOdShow from '../pages/ControleOd/Show';
+import ControleOdEdit from '../pages/ControleOd/Edit';
+
+import ControlePhList from '../pages/ControlePh/List';
+import ControlePhNew from '../pages/ControlePh/New';
+import ControlePhShow from '../pages/ControlePh/Show';
+import ControlePhEdit from '../pages/ControlePh/Edit';
+
+import ControleVazaoList from '../pages/ControleVazao/List';
+import ControleVazaoNew from '../pages/ControleVazao/New';
+import ControleVazaoShow from '../pages/ControleVazao/Show';
+import ControleVazaoEdit from '../pages/ControleVazao/Edit';
+
 const HomeStack = createStackNavigator();
 
 const HomeRoutes = () => {
@@ -233,6 +248,69 @@ const HomeRoutes = () => {
                 name="ControleColetaEdit"
                 options={{ title: 'Controle Coleta' }}
                 component={ControleColetaEdit}
+            />
+
+            <HomeStack.Screen
+                name="ControleOdList"
+                options={{ title: 'Controle Od' }}
+                component={ControleOdList}
+            />
+            <HomeStack.Screen
+                name="ControleOdNew"
+                options={{ title: 'Controle Od' }}
+                component={ControleOdNew}
+            />
+            <HomeStack.Screen
+                name="ControleOdShow"
+                options={{ title: 'Controle Od' }}
+                component={ControleOdShow}
+            />
+            <HomeStack.Screen
+                name="ControleOdEdit"
+                options={{ title: 'Controle Od' }}
+                component={ControleOdEdit}
+            />
+
+            <HomeStack.Screen
+                name="ControlePhList"
+                options={{ title: 'Controle Ph' }}
+                component={ControlePhList}
+            />
+            <HomeStack.Screen
+                name="ControlePhNew"
+                options={{ title: 'Controle Ph' }}
+                component={ControlePhNew}
+            />
+            <HomeStack.Screen
+                name="ControlePhShow"
+                options={{ title: 'Controle Ph' }}
+                component={ControlePhShow}
+            />
+            <HomeStack.Screen
+                name="ControlePhEdit"
+                options={{ title: 'Controle Ph' }}
+                component={ControlePhEdit}
+            />
+
+            <HomeStack.Screen
+                name="ControleVazaoList"
+                options={{ title: 'Controle Vazão' }}
+                component={ControleVazaoList}
+            />
+            <HomeStack.Screen
+                name="ControleVazaoNew"
+                options={{ title: 'Controle Vazão' }}
+                component={ControleVazaoNew}
+            />
+            <HomeStack.Screen
+                name="ControleVazaoShow"
+                options={{ title: 'Controle Vazão' }}
+                component={ControleVazaoShow}
+            />
+            <HomeStack.Screen
+                name="ControleVazaoEdit"
+                options={{ title: 'Controle Vazão' }}
+                component={ControleVazaoEdit}
             />
         </HomeStack.Navigator>
     );

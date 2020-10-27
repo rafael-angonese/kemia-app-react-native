@@ -27,7 +27,7 @@ const List = () => {
         setLoading(true);
         try {
             const response = await api.get(
-                `/controle-coletas?localId=${local.id}`
+                `/controle-vazaos?localId=${local.id}`
             );
             const { data } = response;
             setPastilhaCloro(data);
@@ -65,16 +65,14 @@ const List = () => {
                     <DataTable>
                         <DataTable.Header>
                             <DataTable.Title>Data</DataTable.Title>
-                            <DataTable.Title>Status da Coleta</DataTable.Title>
-                            <DataTable.Title>
-                                Condição da Coleta
-                            </DataTable.Title>
+                            <DataTable.Title>Hora</DataTable.Title>
+                            <DataTable.Title>Vaão Dia</DataTable.Title>
                         </DataTable.Header>
                         {pastilhaCloro.map((item, index) => (
                             <TouchableOpacity
                                 key={item.id}
                                 onPress={() => {
-                                    navigation.navigate('ControleColetaShow', {
+                                    navigation.navigate('ControleVazaoShow', {
                                         item: item,
                                         refresh: myAsyncEffect.bind(this),
                                     });
@@ -85,17 +83,10 @@ const List = () => {
                                         {formatDate(item.data)}
                                     </DataTable.Cell>
                                     <DataTable.Cell>
-                                        {item.status_coleta == 1
-                                            ? 'Realizada'
-                                            : 'Adiada'}
+                                        {item.hora.slice(0, -3)}
                                     </DataTable.Cell>
                                     <DataTable.Cell>
-                                        {' '}
-                                        {item.condicao_coleta == 1
-                                            ? 'Ensoralada'
-                                            : item.condicao_coleta == 2
-                                            ? 'Chuvoso'
-                                            : 'Garoa'}
+                                        {item.vazao_dia}
                                     </DataTable.Cell>
                                 </DataTable.Row>
                             </TouchableOpacity>
@@ -112,7 +103,7 @@ const List = () => {
                 style={styles.fab}
                 icon="plus"
                 onPress={() =>
-                    navigation.navigate('ControleColetaNew', {
+                    navigation.navigate('ControleVazaoNew', {
                         refresh: myAsyncEffect.bind(this),
                     })
                 }

@@ -93,6 +93,36 @@ const Admin = (props) => {
                     navigation.navigate('ControleColetaList');
                 }}
             />
+            <List.Item
+                title="Controle de OD"
+                description="planilha de controle de OD"
+                left={(props) => (
+                    <List.Icon {...props} icon="format-list-checks" />
+                )}
+                onPress={() => {
+                    navigation.navigate('ControleOdList');
+                }}
+            />
+            <List.Item
+                title="Controle de PH"
+                description="planilha de controle de PH"
+                left={(props) => (
+                    <List.Icon {...props} icon="format-list-checks" />
+                )}
+                onPress={() => {
+                    navigation.navigate('ControlePhList');
+                }}
+            />
+            <List.Item
+                title="Controle de Vazão"
+                description="planilha de controle de Vazão"
+                left={(props) => (
+                    <List.Icon {...props} icon="format-list-checks" />
+                )}
+                onPress={() => {
+                    navigation.navigate('ControleVazaoList');
+                }}
+            />
             {/* <List.Item
                 title="Etas"
                 description="Estações de tratamento de água"
@@ -110,16 +140,6 @@ const Admin = (props) => {
                 }}
             /> */}
             <List.Item
-                title="Controle de OD"
-                description="planilha de controle de OD"
-                left={(props) => (
-                    <List.Icon {...props} icon="format-list-checks" />
-                )}
-                onPress={() => {
-                    navigation.navigate('controle_od_list');
-                }}
-            />
-            <List.Item
                 title="Controle de SS"
                 description="planilha de controle de SS"
                 left={(props) => (
@@ -129,26 +149,7 @@ const Admin = (props) => {
                     navigation.navigate('controle_ss_list');
                 }}
             />
-            <List.Item
-                title="Controle de PH"
-                description="planilha de controle de PH"
-                left={(props) => (
-                    <List.Icon {...props} icon="format-list-checks" />
-                )}
-                onPress={() => {
-                    navigation.navigate('controle_ph_list');
-                }}
-            />
-            <List.Item
-                title="Controle de Vazão"
-                description="planilha de controle de Vazão"
-                left={(props) => (
-                    <List.Icon {...props} icon="format-list-checks" />
-                )}
-                onPress={() => {
-                    navigation.navigate('controle_vazao_list');
-                }}
-            />
+
             <List.Item
                 title="Controle de Tanques"
                 description="planilha de controle de tanques"

@@ -6,13 +6,7 @@ import {
     ScrollView,
     Keyboard,
 } from 'react-native';
-import {
-    TextInput,
-    Snackbar,
-    Button,
-    RadioButton,
-    HelperText,
-} from 'react-native-paper';
+import { TextInput, Snackbar, Button, HelperText } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { CustomPicker } from 'react-native-custom-picker';
 import * as Yup from 'yup';
@@ -32,27 +26,29 @@ const New = ({ route }) => {
     const [loading, setLoading] = useState(false);
 
     const [data, setData] = useState(Date.now());
-    const [status_coleta, setStatus_coleta] = useState(1);
-    const [condicao_coleta, setCondicao_coleta] = useState(1);
+    const [hora, setHora] = useState(Date.now());
+    const [bruto, setBruto] = useState('');
+    const [reator_1, setReator_1] = useState('');
+    const [reator_2, setReator_2] = useState('');
+    const [reator_3, setReator_3] = useState('');
+    const [tratado, setTratado] = useState('');
+    const [acaoCorretiva, setAcaoCorretiva] = useState('');
 
     const [show_data, setShow_data] = useState(false);
+    const [show_hora, setShow_hora] = useState(false);
 
     const [snackbar, setSnackbar] = useState(false);
     const [error, setError] = useState({});
 
     async function salvar() {
         const schema = Yup.object().shape({
-            status_coleta: Yup.string()
-                .min(1)
-                .required('Problema é obrigatório'),
-            condicao_coleta: Yup.string()
-                .min(1)
-                .required('Problema é obrigatório'),
+            bruto: Yup.string().min(1).required('Bruto é obrigatório'),
+            tratado: Yup.string().min(1).required('Tratado é obrigatório'),
         });
 
         const validation = await yupValidator(schema, {
-            status_coleta,
-            condicao_coleta,
+            bruto,
+            tratado,
         });
 
         setError(validation);
@@ -61,10 +57,15 @@ const New = ({ route }) => {
 
         setLoading(true);
         try {
-            const response = await api.post('/controle-coletas', {
+            const response = await api.post('/controle-ods', {
                 data: formatDate(data, 'yyyy-MM-dd'),
-                status_coleta,
-                condicao_coleta,
+                hora: formatDate(hora, 'yyyy-MM-dd HH:mm:ss'),
+                bruto,
+                reator_1,
+                reator_2,
+                reator_3,
+                tratado,
+                acao_corretiva: acaoCorretiva,
                 empresa_id: empresa.id,
                 local_id: local.id,
             });
@@ -72,8 +73,13 @@ const New = ({ route }) => {
             // const { data } = response;
 
             setData(Date.now());
-            setStatus_coleta(1);
-            setCondicao_coleta(1);
+            setHora(Date.now());
+            setBruto('');
+            setReator_1('');
+            setReator_2('');
+            setReator_3('');
+            setTratado('');
+            setAcaoCorretiva('');
             setSnackbar(true);
             refresh();
         } catch (error) {
@@ -91,67 +97,68 @@ const New = ({ route }) => {
                     <Button icon="calendar" onPress={() => setShow_data(true)}>
                         {formatDate(data)}
                     </Button>
+                    <Button icon="calendar" onPress={() => setShow_hora(true)}>
+                        {formatDate(hora, 'HH:mm:ss')}
+                    </Button>
                 </View>
 
-                <Text style={{ marginTop: 30 }}>Status:</Text>
-                <View style={styles.container_row}>
-                    <Text>Realizada</Text>
-                    <RadioButton
-                        value="1"
-                        status={status_coleta === 1 ? 'checked' : 'unchecked'}
-                        onPress={() => {
-                            setStatus_coleta(1);
-                        }}
-                    />
-
-                    <Text style={{ marginLeft: 30 }}>Adiada</Text>
-                    <RadioButton
-                        value="2"
-                        status={status_coleta === 2 ? 'checked' : 'unchecked'}
-                        onPress={() => {
-                            setStatus_coleta(2);
-                        }}
-                    />
-                </View>
-
+                <TextInput
+                    label="Bruto:"
+                    value={bruto}
+                    keyboardType={'numeric'}
+                    onChangeText={(text) => setBruto(text)}
+                />
                 <HelperText type="error" visible={true}>
-                    {error?.status_coleta}
+                    {error?.bruto}
                 </HelperText>
 
-                <Text style={{ marginTop: 30 }}>
-                    Condições de coleta (tempo e clima):
-                </Text>
-                <View style={styles.container_row}>
-                    <Text>Ensoralado</Text>
-                    <RadioButton
-                        value="1"
-                        status={condicao_coleta === 1 ? 'checked' : 'unchecked'}
-                        onPress={() => {
-                            setCondicao_coleta(1);
-                        }}
-                    />
-
-                    <Text style={{ marginLeft: 30 }}>Chuvoso</Text>
-                    <RadioButton
-                        value="2"
-                        status={condicao_coleta === 2 ? 'checked' : 'unchecked'}
-                        onPress={() => {
-                            setCondicao_coleta(2);
-                        }}
-                    />
-
-                    <Text style={{ marginLeft: 30 }}>Garoa</Text>
-                    <RadioButton
-                        value="3"
-                        status={condicao_coleta === 3 ? 'checked' : 'unchecked'}
-                        onPress={() => {
-                            setCondicao_coleta(3);
-                        }}
-                    />
-                </View>
-
+                <TextInput
+                    label="Reator 1:"
+                    value={reator_1}
+                    keyboardType={'numeric'}
+                    onChangeText={(text) => setReator_1(text)}
+                />
                 <HelperText type="error" visible={true}>
-                    {error?.condicao_coleta}
+                    {error?.reator_1}
+                </HelperText>
+
+                <TextInput
+                    label="Reator 2:"
+                    value={reator_2}
+                    keyboardType={'numeric'}
+                    onChangeText={(text) => setReator_2(text)}
+                />
+                <HelperText type="error" visible={true}>
+                    {error?.reator_2}
+                </HelperText>
+
+                <TextInput
+                    label="Reator 3:"
+                    value={reator_3}
+                    keyboardType={'numeric'}
+                    onChangeText={(text) => setReator_3(text)}
+                />
+                <HelperText type="error" visible={true}>
+                    {error?.reator_3}
+                </HelperText>
+
+                <TextInput
+                    label="Tratado:"
+                    value={tratado}
+                    keyboardType={'numeric'}
+                    onChangeText={(text) => setTratado(text)}
+                />
+                <HelperText type="error" visible={true}>
+                    {error?.tratado}
+                </HelperText>
+
+                <TextInput
+                    label="Ação Corretiva:"
+                    value={acaoCorretiva}
+                    onChangeText={(text) => setAcaoCorretiva(text)}
+                />
+                <HelperText type="error" visible={true}>
+                    {error?.acaoCorretiva}
                 </HelperText>
 
                 {show_data && (
@@ -164,6 +171,21 @@ const New = ({ route }) => {
                             setShow_data(false);
                             if (typeof date !== 'undefined') {
                                 setData(date);
+                            }
+                        }}
+                    />
+                )}
+
+                {show_hora && (
+                    <DateTimePicker
+                        mode="time"
+                        value={hora}
+                        is24Hour={true}
+                        display="default"
+                        onChange={(event, date) => {
+                            setShow_hora(false);
+                            if (typeof date !== 'undefined') {
+                                setHora(date);
                             }
                         }}
                     />

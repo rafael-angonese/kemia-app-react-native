@@ -23,10 +23,10 @@ const Show = ({ route }) => {
         setDialog(false);
         setLoading(true);
         try {
-            const response = await api.delete('/controle-coletas/' + item.id);
+            const response = await api.delete('/controle-ods/' + item.id);
             setLoading(false);
             refresh();
-            navigation.navigate('ControleColetaList');
+            navigation.navigate('ControleOdList');
         } catch (error) {
             setLoading(false);
             const validation = handlingErros(error);
@@ -49,18 +49,23 @@ const Show = ({ route }) => {
 
             <Text style={styles.title_view}>Controle</Text>
             <Text style={styles.title_view}>de</Text>
-            <Text style={styles.title_view}>Coleta</Text>
+            <Text style={styles.title_view}>Od</Text>
 
             <Text>Data: {formatDate(item.data)}</Text>
-            <Text>Status da coleta:  {item.status_coleta == 1 ? 'Realizada' : 'Adiada'}</Text>
-            <Text>Condição da coleta: {item.condicao_coleta == 1 ? 'Ensoralada' : (item.condicao_coleta == 2 ? 'Chuvoso' : 'Garoa')}</Text>
+            <Text>Hora: {item.hora.slice(0, -3)}</Text>
+            <Text>Bruto: {item.bruto}</Text>
+            <Text>Reator 1: {item.reator_1}</Text>
+            <Text>Reator 2: {item.reator_2}</Text>
+            <Text>Reator 3: {item.reator_3}</Text>
+            <Text>Tratado: {item.tratado}</Text>
+            <Text>Ação Corretiva: {item.acao_corretiva}</Text>
             <View style={styles.container_row}>
                 <Button
                     style={styles.button_radius}
                     icon="pencil"
                     mode="contained"
                     onPress={() =>
-                        navigation.navigate('ControleColetaEdit', {
+                        navigation.navigate('ControleOdEdit', {
                             item: item,
                             refresh: refresh.bind(this),
                         })
