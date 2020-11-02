@@ -61,6 +61,16 @@ import ControleVazaoNew from '../pages/ControleVazao/New';
 import ControleVazaoShow from '../pages/ControleVazao/Show';
 import ControleVazaoEdit from '../pages/ControleVazao/Edit';
 
+import ControleTanqueList from '../pages/ControleTanque/List';
+import ControleTanqueNew from '../pages/ControleTanque/New';
+import ControleTanqueShow from '../pages/ControleTanque/Show';
+import ControleTanqueEdit from '../pages/ControleTanque/Edit';
+
+import ControleRotacaoBombaList from '../pages/ControleRotacaoBomba/List';
+import ControleRotacaoBombaNew from '../pages/ControleRotacaoBomba/New';
+import ControleRotacaoBombaShow from '../pages/ControleRotacaoBomba/Show';
+import ControleRotacaoBombaEdit from '../pages/ControleRotacaoBomba/Edit';
+
 const HomeStack = createStackNavigator();
 
 const HomeRoutes = () => {
@@ -311,6 +321,48 @@ const HomeRoutes = () => {
                 name="ControleVazaoEdit"
                 options={{ title: 'Controle Vazão' }}
                 component={ControleVazaoEdit}
+            />
+
+            <HomeStack.Screen
+                name="ControleTanqueList"
+                options={{ title: 'Controle Tanque' }}
+                component={ControleTanqueList}
+            />
+            <HomeStack.Screen
+                name="ControleTanqueNew"
+                options={{ title: 'Controle Tanque' }}
+                component={ControleTanqueNew}
+            />
+            <HomeStack.Screen
+                name="ControleTanqueShow"
+                options={{ title: 'Controle Tanque' }}
+                component={ControleTanqueShow}
+            />
+            <HomeStack.Screen
+                name="ControleTanqueEdit"
+                options={{ title: 'Controle Tanque' }}
+                component={ControleTanqueEdit}
+            />
+
+            <HomeStack.Screen
+                name="ControleRotacaoBombaList"
+                options={{ title: 'Controle Rotação Bomba' }}
+                component={ControleRotacaoBombaList}
+            />
+            <HomeStack.Screen
+                name="ControleRotacaoBombaNew"
+                options={{ title: 'Controle Rotação Bomba' }}
+                component={ControleRotacaoBombaNew}
+            />
+            <HomeStack.Screen
+                name="ControleRotacaoBombaShow"
+                options={{ title: 'Controle Rotação Bomba' }}
+                component={ControleRotacaoBombaShow}
+            />
+            <HomeStack.Screen
+                name="ControleRotacaoBombaEdit"
+                options={{ title: 'Controle Rotação Bomba' }}
+                component={ControleRotacaoBombaEdit}
             />
         </HomeStack.Navigator>
     );

@@ -123,6 +123,26 @@ const Admin = (props) => {
                     navigation.navigate('ControleVazaoList');
                 }}
             />
+            <List.Item
+                title="Controle de Tanques"
+                description="planilha de controle de tanques"
+                left={(props) => (
+                    <List.Icon {...props} icon="format-list-checks" />
+                )}
+                onPress={() => {
+                    navigation.navigate('ControleTanqueList');
+                }}
+            />
+             <List.Item
+                title="Controle de Rotação da Bomba"
+                description="planilha de controle de rotação da bomba"
+                left={(props) => (
+                    <List.Icon {...props} icon="format-list-checks" />
+                )}
+                onPress={() => {
+                    navigation.navigate('ControleRotacaoBombaList');
+                }}
+            />
             {/* <List.Item
                 title="Etas"
                 description="Estações de tratamento de água"
@@ -150,26 +170,6 @@ const Admin = (props) => {
                 }}
             />
 
-            <List.Item
-                title="Controle de Tanques"
-                description="planilha de controle de tanques"
-                left={(props) => (
-                    <List.Icon {...props} icon="format-list-checks" />
-                )}
-                onPress={() => {
-                    navigation.navigate('controle_tanque_list');
-                }}
-            />
-            <List.Item
-                title="Controle de Rotação da Bomba"
-                description="planilha de controle de rotação da bomba"
-                left={(props) => (
-                    <List.Icon {...props} icon="format-list-checks" />
-                )}
-                onPress={() => {
-                    navigation.navigate('controle_bomba_list');
-                }}
-            />
         </View>
     );
 };
