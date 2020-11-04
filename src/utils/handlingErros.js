@@ -13,7 +13,7 @@ const handlingErros = (error) => {
             errorMessages.error = 'Erro interno do servidor';
         }
 
-        data.errors.forEach((item) => {
+        data?.errors?.forEach((item) => {
             console.log(item);
         });
     } else if (error.request) {

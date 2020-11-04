@@ -5,8 +5,9 @@ import {
     ActivityIndicator,
     ScrollView,
     TouchableOpacity,
+    Modal,
 } from 'react-native';
-import { FAB, DataTable, Button } from 'react-native-paper';
+import { FAB, DataTable, Button, TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -18,9 +19,9 @@ import api from '../../services/api';
 import styles from '../Styles/styles';
 
 const List = () => {
-    const { empresa, local } = useAuth();
+    const { empresa, local, user } = useAuth();
     const [loading, setLoading] = useState(false);
-    const [pastilhaCloro, setPastilhaCloro] = useState([]);
+    const [controleVazao, setControleVazao] = useState([]);
     const [error, setError] = useState('');
 
     const [startDate, setStartDate] = useState(Date.now());
@@ -29,6 +30,53 @@ const List = () => {
     const [showEndDate, setShowEndDate] = useState(false);
 
     const navigation = useNavigation();
+
+    const [tipo, setTipo] = useState(null);
+    const [email, setEmail] = useState('');
+    const [emailErro, setEmailErro] = useState('');
+    const [visible, setVisible] = useState(false);
+    const showModal = (tipo) => {
+        setTipo(tipo);
+        setVisible(true);
+    };
+    const hideModal = () => setVisible(false);
+
+    function validateEmail() {
+        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let resultado = re.test(email);
+
+        if (resultado === false) {
+            setEmailErro('Digite um e-mail válido');
+        }
+        if (resultado === true) {
+            setEmailErro('');
+            hideModal();
+            sendEmail();
+        }
+    }
+
+    async function sendEmail() {
+        try {
+            setLoading(true);
+            let query = {
+                localId: local.id,
+                startDate: formatDate(startDate, 'yyyy-MM-dd'),
+                endDate: formatDate(endDate, 'yyyy-MM-dd'),
+                email: email,
+                tipo: tipo,
+            };
+            const params = toQueryString(query);
+            const response = await api.get(
+                `/controle-vazaos/sendEmail${params}`
+            );
+            setError({});
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            const validation = handlingErros(error);
+            setError(validation);
+        }
+    }
 
     async function myAsyncEffect() {
         setLoading(true);
@@ -41,11 +89,11 @@ const List = () => {
             const params = toQueryString(query);
             const response = await api.get(`/controle-vazaos${params}`);
             const { data } = response;
-            setPastilhaCloro(data);
+            setControleVazao(data);
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            setPastilhaCloro([]);
+            setControleVazao([]);
             const validation = handlingErros(error);
             setError(validation);
         }
@@ -97,7 +145,7 @@ const List = () => {
                             <DataTable.Title>Hora</DataTable.Title>
                             <DataTable.Title>Vaão Dia</DataTable.Title>
                         </DataTable.Header>
-                        {pastilhaCloro.map((item, index) => (
+                        {controleVazao.map((item, index) => (
                             <TouchableOpacity
                                 key={item.id}
                                 onPress={() => {
@@ -122,10 +170,76 @@ const List = () => {
                         ))}
                     </DataTable>
                 </ScrollView>
-                {pastilhaCloro.length == 0 && (
+                {controleVazao.length == 0 && (
                     <Text style={styles.empty}>Desculpa, não há dados!</Text>
                 )}
+
+                {(user?.tipo === 'master' || user?.tipo === 'admin') &&
+                    controleVazao.length > 0 && (
+                        <View style={styles.container_button}>
+                            <Button
+                                style={{ borderRadius: 50, marginTop: 10 }}
+                                icon="email"
+                                mode="contained"
+                                onPress={() => showModal('xlsx')}
+                            >
+                                XLSX
+                            </Button>
+                            <Button
+                                style={{ borderRadius: 50, marginTop: 10 }}
+                                icon="email"
+                                mode="contained"
+                                onPress={() => showModal('pdf')}
+                            >
+                                PDF
+                            </Button>
+                        </View>
+                    )}
             </ScrollView>
+
+            <Modal
+                visible={visible}
+                animationType={'slide'}
+                transparent={false}
+                onRequestClose={() => hideModal()}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.innerContainer}>
+                        <Text>Enviar E-mail para</Text>
+                        <TextInput
+                            style={styles.inputEmail}
+                            placeholder="E-mail"
+                            value={email}
+                            autoCorrect={false}
+                            placeholderTextColor="#9a73ef"
+                            autoCapitalize="none"
+                            onChangeText={(text) => setEmail(text)}
+                        />
+                        {emailErro.length !== 0 && (
+                            <Text style={styles.error}>{emailErro}</Text>
+                        )}
+                        <View style={styles.container_row}>
+                            <Button
+                                style={styles.button_radius}
+                                icon="cancel"
+                                mode="contained"
+                                onPress={() => hideModal()}
+                            >
+                                Cancelar
+                            </Button>
+                            <Button
+                                style={styles.button_radius}
+                                color="green"
+                                icon="email"
+                                mode="contained"
+                                onPress={() => validateEmail()}
+                            >
+                                Enviar
+                            </Button>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
 
             <FAB
                 label="novo"
