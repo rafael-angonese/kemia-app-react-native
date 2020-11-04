@@ -48,10 +48,8 @@ const Admin = (props) => {
             />
             <List.Item
                 title="Eta"
-                description="etas"
-                left={(props) => (
-                    <List.Icon {...props} icon="format-list-checks" />
-                )}
+                description="Estações de tratamento de água"
+                left={(props) => <List.Icon {...props} icon="engine" />}
                 onPress={() => {
                     navigation.navigate('EtaList');
                 }}
@@ -59,9 +57,7 @@ const Admin = (props) => {
             <List.Item
                 title="Lagoa"
                 description="lagoas"
-                left={(props) => (
-                    <List.Icon {...props} icon="format-list-checks" />
-                )}
+                left={(props) => <List.Icon {...props} icon="docker" />}
                 onPress={() => {
                     navigation.navigate('LagoaList');
                 }}
@@ -144,16 +140,6 @@ const Admin = (props) => {
                 }}
             />
             <List.Item
-                title="Controle de PH"
-                description="planilha de controle de PH"
-                left={(props) => (
-                    <List.Icon {...props} icon="format-list-checks" />
-                )}
-                onPress={() => {
-                    navigation.navigate('ControlePhList');
-                }}
-            />
-            <List.Item
                 title="Controle de Ss"
                 description="planilha de controle de Ss"
                 left={(props) => (
@@ -161,6 +147,16 @@ const Admin = (props) => {
                 )}
                 onPress={() => {
                     navigation.navigate('ControleSsList');
+                }}
+            />
+            <List.Item
+                title="Controle de PH"
+                description="planilha de controle de PH"
+                left={(props) => (
+                    <List.Icon {...props} icon="format-list-checks" />
+                )}
+                onPress={() => {
+                    navigation.navigate('ControlePhList');
                 }}
             />
             <List.Item
@@ -191,32 +187,6 @@ const Admin = (props) => {
                 )}
                 onPress={() => {
                     navigation.navigate('ControleRotacaoBombaList');
-                }}
-            />
-            {/* <List.Item
-                title="Etas"
-                description="Estações de tratamento de água"
-                left={props => <List.Icon {...props} icon="engine" />}
-                onPress={() => {
-                    navigation.navigate('eta_list')
-                }}
-            />
-            <List.Item
-                title="Lagoas"
-                description="Lagoas"
-                left={props => <List.Icon {...props} icon="docker" />}
-                onPress={() => {
-                    navigation.navigate('lagoa_list')
-                }}
-            /> */}
-            <List.Item
-                title="Controle de SS"
-                description="planilha de controle de SS"
-                left={(props) => (
-                    <List.Icon {...props} icon="format-list-checks" />
-                )}
-                onPress={() => {
-                    navigation.navigate('controle_ss_list');
                 }}
             />
         </View>
