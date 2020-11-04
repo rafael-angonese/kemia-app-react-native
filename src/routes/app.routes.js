@@ -56,6 +56,11 @@ import ControlePhNew from '../pages/ControlePh/New';
 import ControlePhShow from '../pages/ControlePh/Show';
 import ControlePhEdit from '../pages/ControlePh/Edit';
 
+import ControleSsList from '../pages/ControleSs/List';
+import ControleSsNew from '../pages/ControleSs/New';
+import ControleSsShow from '../pages/ControleSs/Show';
+import ControleSsEdit from '../pages/ControleSs/Edit';
+
 import ControleVazaoList from '../pages/ControleVazao/List';
 import ControleVazaoNew from '../pages/ControleVazao/New';
 import ControleVazaoShow from '../pages/ControleVazao/Show';
@@ -70,6 +75,26 @@ import ControleRotacaoBombaList from '../pages/ControleRotacaoBomba/List';
 import ControleRotacaoBombaNew from '../pages/ControleRotacaoBomba/New';
 import ControleRotacaoBombaShow from '../pages/ControleRotacaoBomba/Show';
 import ControleRotacaoBombaEdit from '../pages/ControleRotacaoBomba/Edit';
+
+import EtaList from '../pages/Eta/List';
+import EtaNew from '../pages/Eta/New';
+import EtaShow from '../pages/Eta/Show';
+import EtaEdit from '../pages/Eta/Edit';
+
+import LagoaList from '../pages/Lagoa/List';
+import LagoaNew from '../pages/Lagoa/New';
+import LagoaShow from '../pages/Lagoa/Show';
+import LagoaEdit from '../pages/Lagoa/Edit';
+
+import PolimentoEtaList from '../pages/PolimentoEta/List';
+import PolimentoEtaNew from '../pages/PolimentoEta/New';
+import PolimentoEtaShow from '../pages/PolimentoEta/Show';
+import PolimentoEtaEdit from '../pages/PolimentoEta/Edit';
+
+import TratamentoEfluenteLagoaList from '../pages/TratamentoEfluenteLagoa/List';
+import TratamentoEfluenteLagoaNew from '../pages/TratamentoEfluenteLagoa/New';
+import TratamentoEfluenteLagoaShow from '../pages/TratamentoEfluenteLagoa/Show';
+import TratamentoEfluenteLagoaEdit from '../pages/TratamentoEfluenteLagoa/Edit';
 
 const HomeStack = createStackNavigator();
 
@@ -303,6 +328,27 @@ const HomeRoutes = () => {
             />
 
             <HomeStack.Screen
+                name="ControleSsList"
+                options={{ title: 'Controle Ss' }}
+                component={ControleSsList}
+            />
+            <HomeStack.Screen
+                name="ControleSsNew"
+                options={{ title: 'Controle Ss' }}
+                component={ControleSsNew}
+            />
+            <HomeStack.Screen
+                name="ControleSsShow"
+                options={{ title: 'Controle Ss' }}
+                component={ControleSsShow}
+            />
+            <HomeStack.Screen
+                name="ControleSsEdit"
+                options={{ title: 'Controle Ss' }}
+                component={ControleSsEdit}
+            />
+
+            <HomeStack.Screen
                 name="ControleVazaoList"
                 options={{ title: 'Controle Vazão' }}
                 component={ControleVazaoList}
@@ -363,6 +409,90 @@ const HomeRoutes = () => {
                 name="ControleRotacaoBombaEdit"
                 options={{ title: 'Controle Rotação Bomba' }}
                 component={ControleRotacaoBombaEdit}
+            />
+
+            <HomeStack.Screen
+                name="EtaList"
+                options={{ title: 'Eta' }}
+                component={EtaList}
+            />
+            <HomeStack.Screen
+                name="EtaNew"
+                options={{ title: 'Eta' }}
+                component={EtaNew}
+            />
+            <HomeStack.Screen
+                name="EtaShow"
+                options={{ title: 'Eta' }}
+                component={EtaShow}
+            />
+            <HomeStack.Screen
+                name="EtaEdit"
+                options={{ title: 'Eta' }}
+                component={EtaEdit}
+            />
+
+            <HomeStack.Screen
+                name="LagoaList"
+                options={{ title: 'Lagoa' }}
+                component={LagoaList}
+            />
+            <HomeStack.Screen
+                name="LagoaNew"
+                options={{ title: 'Lagoa' }}
+                component={LagoaNew}
+            />
+            <HomeStack.Screen
+                name="LagoaShow"
+                options={{ title: 'Lagoa' }}
+                component={LagoaShow}
+            />
+            <HomeStack.Screen
+                name="LagoaEdit"
+                options={{ title: 'Lagoa' }}
+                component={LagoaEdit}
+            />
+
+            <HomeStack.Screen
+                name="PolimentoEtaList"
+                options={{ title: 'Polimento Eta' }}
+                component={PolimentoEtaList}
+            />
+            <HomeStack.Screen
+                name="PolimentoEtaNew"
+                options={{ title: 'Polimento Eta' }}
+                component={PolimentoEtaNew}
+            />
+            <HomeStack.Screen
+                name="PolimentoEtaShow"
+                options={{ title: 'Polimento Eta' }}
+                component={PolimentoEtaShow}
+            />
+            <HomeStack.Screen
+                name="PolimentoEtaEdit"
+                options={{ title: 'Polimento Eta' }}
+                component={PolimentoEtaEdit}
+            />
+
+            <HomeStack.Screen
+                name="TratamentoEfluenteLagoaList"
+                options={{ title: 'Tratamento Efluente Lagoa' }}
+                component={TratamentoEfluenteLagoaList}
+            />
+            <HomeStack.Screen
+                name="TratamentoEfluenteLagoaNew"
+                options={{ title: 'Tratamento Efluente Lagoa' }}
+                component={TratamentoEfluenteLagoaNew}
+            />
+            <HomeStack.Screen
+                name="TratamentoEfluenteLagoaShow"
+                options={{ title: 'Tratamento Efluente Lagoa' }}
+                component={TratamentoEfluenteLagoaShow}
+            />
+            <HomeStack.Screen
+                name="TratamentoEfluenteLagoaEdit"
+                options={{ title: 'Tratamento Efluente Lagoa' }}
+                component={TratamentoEfluenteLagoaEdit}
             />
         </HomeStack.Navigator>
     );

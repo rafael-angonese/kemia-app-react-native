@@ -46,6 +46,26 @@ const Admin = (props) => {
                 }}
                 title="Tanques"
             />
+            <List.Item
+                title="Eta"
+                description="etas"
+                left={(props) => (
+                    <List.Icon {...props} icon="format-list-checks" />
+                )}
+                onPress={() => {
+                    navigation.navigate('EtaList');
+                }}
+            />
+            <List.Item
+                title="Lagoa"
+                description="lagoas"
+                left={(props) => (
+                    <List.Icon {...props} icon="format-list-checks" />
+                )}
+                onPress={() => {
+                    navigation.navigate('LagoaList');
+                }}
+            />
             <Menu.Item
                 icon="robot-industrial"
                 onPress={() => {
@@ -61,6 +81,26 @@ const Admin = (props) => {
                 )}
                 onPress={() => {
                     navigation.navigate('EquipamentoManutencaoList');
+                }}
+            />
+            <List.Item
+                title="Polimento com ETA"
+                description="polimento com etas"
+                left={(props) => (
+                    <List.Icon {...props} icon="robot-industrial" />
+                )}
+                onPress={() => {
+                    navigation.navigate('PolimentoEtaList');
+                }}
+            />
+            <List.Item
+                title="Tratamento Efluente Lagoa"
+                description="Tratamento Efluente Lagoa"
+                left={(props) => (
+                    <List.Icon {...props} icon="robot-industrial" />
+                )}
+                onPress={() => {
+                    navigation.navigate('TratamentoEfluenteLagoaList');
                 }}
             />
             <List.Item
@@ -114,6 +154,16 @@ const Admin = (props) => {
                 }}
             />
             <List.Item
+                title="Controle de Ss"
+                description="planilha de controle de Ss"
+                left={(props) => (
+                    <List.Icon {...props} icon="format-list-checks" />
+                )}
+                onPress={() => {
+                    navigation.navigate('ControleSsList');
+                }}
+            />
+            <List.Item
                 title="Controle de Vazão"
                 description="planilha de controle de Vazão"
                 left={(props) => (
@@ -133,7 +183,7 @@ const Admin = (props) => {
                     navigation.navigate('ControleTanqueList');
                 }}
             />
-             <List.Item
+            <List.Item
                 title="Controle de Rotação da Bomba"
                 description="planilha de controle de rotação da bomba"
                 left={(props) => (
@@ -169,7 +219,6 @@ const Admin = (props) => {
                     navigation.navigate('controle_ss_list');
                 }}
             />
-
         </View>
     );
 };
