@@ -47,6 +47,17 @@ export const AuthProvider = ({ children }) => {
         setLocal(local);
     }
 
+    async function logout() {
+        await Storage.removeItem(Storage.userKey);
+        await Storage.removeItem(Storage.empresaKey);
+        await Storage.removeItem(Storage.localKey);
+        await Storage.removeItem(Storage.tokenKey);
+
+        setUser(null);
+        setEmpresa(null);
+        setLocal(null);
+    }
+
     return (
         <AuthConxtex.Provider
             value={{
@@ -58,6 +69,7 @@ export const AuthProvider = ({ children }) => {
                 setAuthEmpresa,
                 local,
                 setAuthLocal,
+                logout,
             }}
         >
             {children}

@@ -3,48 +3,73 @@ import { View } from 'react-native';
 import { List, Menu } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
+import { useAuth } from '../../contexts/auth';
+
 const Admin = (props) => {
+    const { logout, user } = useAuth();
     const navigation = useNavigation();
 
     return (
         <View>
-            {/* <List.Item
+            {user?.tipo === 'master' && (
+                <List.Item
+                    title="Empresas"
+                    description=""
+                    left={(props) => (
+                        <List.Icon {...props} icon="city-variant" />
+                    )}
+                    onPress={() => {
+                        navigation.navigate('EmpresaList');
+                    }}
+                />
+            )}
+            <List.Item
                 title="Configurações"
-                description="configurações"
-                left={props => <List.Icon {...props} icon="cogs" />}
+                description=""
+                left={(props) => <List.Icon {...props} icon="cogs" />}
                 onPress={() => {
-                    navigation.navigate('configuracao_list')
+                    navigation.navigate('ConfiguracaoList');
                 }}
             />
-            */}
-            <Menu.Item
-                icon="account"
+            <List.Item
+                title="Usuários"
+                description=""
+                left={(props) => <List.Icon {...props} icon="account" />}
                 onPress={() => {
                     navigation.navigate('UsuarioList');
                 }}
-                title="Usuários"
             />
-            <Menu.Item
-                icon="flag"
+            <List.Item
+                title="Locais"
+                description=""
+                left={(props) => <List.Icon {...props} icon="flag" />}
                 onPress={() => {
                     navigation.navigate('LocalList');
                 }}
-                title="Locais"
             />
-            {/* <List.Item
+            <List.Item
                 title="Tarefas"
                 description="agenda de tarefas"
-                left={props => <List.Icon {...props} icon="calendar-text" />}
+                left={(props) => <List.Icon {...props} icon="calendar-text" />}
                 onPress={() => {
-                    navigation.navigate('agenda_list')
+                    navigation.navigate('TarefaList');
                 }}
-            /> */}
-            <Menu.Item
-                icon="engine"
+            />
+            <List.Item
+                title="Tanques"
+                description=""
+                left={(props) => <List.Icon {...props} icon="engine" />}
                 onPress={() => {
                     navigation.navigate('TanqueList');
                 }}
-                title="Tanques"
+            />
+            <List.Item
+                title="Lagoa"
+                description=""
+                left={(props) => <List.Icon {...props} icon="docker" />}
+                onPress={() => {
+                    navigation.navigate('LagoaList');
+                }}
             />
             <List.Item
                 title="Eta"
@@ -55,19 +80,14 @@ const Admin = (props) => {
                 }}
             />
             <List.Item
-                title="Lagoa"
-                description="lagoas"
-                left={(props) => <List.Icon {...props} icon="docker" />}
-                onPress={() => {
-                    navigation.navigate('LagoaList');
-                }}
-            />
-            <Menu.Item
-                icon="robot-industrial"
+                title="Equipamentos"
+                description=""
+                left={(props) => (
+                    <List.Icon {...props} icon="robot-industrial" />
+                )}
                 onPress={() => {
                     navigation.navigate('EquipamentoList');
                 }}
-                title="Equipamentos"
             />
             <List.Item
                 title="Equipamentos em Manutenção"
@@ -187,6 +207,14 @@ const Admin = (props) => {
                 )}
                 onPress={() => {
                     navigation.navigate('ControleRotacaoBombaList');
+                }}
+            />
+            <List.Item
+                title="Sair"
+                description=""
+                left={(props) => <List.Icon {...props} icon="logout" />}
+                onPress={() => {
+                    logout();
                 }}
             />
         </View>

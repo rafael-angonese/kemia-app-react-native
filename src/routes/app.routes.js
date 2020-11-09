@@ -3,7 +3,20 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { useAuth } from '../contexts/auth';
 import Home from '../pages/Home';
+
 import SelectEmpresa from '../pages/Empresa/Select';
+import EmpresaList from '../pages/Empresa/List';
+import EmpresaNew from '../pages/Empresa/New';
+import EmpresaShow from '../pages/Empresa/Show';
+import EmpresaEdit from '../pages/Empresa/Edit';
+
+import ConfiguracaoList from '../pages/Configuracao/List';
+import ConfiguracaoShow from '../pages/Configuracao/Show';
+import ConfiguracaoEdit from '../pages/Configuracao/Edit';
+
+import TarefaList from '../pages/Tarefa/List';
+import TarefaNew from '../pages/Tarefa/New';
+import TarefaShow from '../pages/Tarefa/Show';
 
 import SelectLocal from '../pages/Local/Select';
 import LocalList from '../pages/Local/List';
@@ -103,9 +116,9 @@ const HomeRoutes = () => {
 
     return (
         <HomeStack.Navigator>
-            <HomeStack.Screen name="Home" component={Home} />
+            {/* <HomeStack.Screen name="Home" component={Home} /> */}
 
-            {user?.tipo === 'master' && (
+            {user.tipo === 'master' && (
                 <HomeStack.Screen
                     name="SelectEmpresa"
                     options={{ title: 'Empresa' }}
@@ -118,6 +131,30 @@ const HomeRoutes = () => {
                 options={{ title: 'Local' }}
                 component={SelectLocal}
             />
+
+            <HomeStack.Screen name="Home" component={Home} />
+
+            <HomeStack.Screen
+                name="EmpresaList"
+                options={{ title: 'Empresas' }}
+                component={EmpresaList}
+            />
+            <HomeStack.Screen
+                name="EmpresaNew"
+                options={{ title: 'Novo Empresa' }}
+                component={EmpresaNew}
+            />
+            <HomeStack.Screen
+                name="EmpresaShow"
+                options={{ title: 'Empresa' }}
+                component={EmpresaShow}
+            />
+            <HomeStack.Screen
+                name="EmpresaEdit"
+                options={{ title: 'Empresa' }}
+                component={EmpresaEdit}
+            />
+
             <HomeStack.Screen
                 name="LocalList"
                 options={{ title: 'Locais' }}
@@ -158,6 +195,38 @@ const HomeRoutes = () => {
                 name="UsuarioEdit"
                 options={{ title: 'Usuário' }}
                 component={UsuarioEdit}
+            />
+
+            <HomeStack.Screen
+                name="ConfiguracaoList"
+                options={{ title: 'Configurações' }}
+                component={ConfiguracaoList}
+            />
+            <HomeStack.Screen
+                name="ConfiguracaoShow"
+                options={{ title: 'Configurações' }}
+                component={ConfiguracaoShow}
+            />
+            <HomeStack.Screen
+                name="ConfiguracaoEdit"
+                options={{ title: 'Configurações' }}
+                component={ConfiguracaoEdit}
+            />
+
+            <HomeStack.Screen
+                name="TarefaList"
+                options={{ title: 'Tarefas' }}
+                component={TarefaList}
+            />
+            <HomeStack.Screen
+                name="TarefaNew"
+                options={{ title: 'Tarefa' }}
+                component={TarefaNew}
+            />
+            <HomeStack.Screen
+                name="TarefaShow"
+                options={{ title: 'Tarefa' }}
+                component={TarefaShow}
             />
 
             <HomeStack.Screen

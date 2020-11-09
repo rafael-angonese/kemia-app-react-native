@@ -10,7 +10,7 @@ import api from '../../services/api';
 import styles from '../Styles/styles';
 
 const SelectLocal = () => {
-    const { empresa, setAuthLocal } = useAuth();
+    const { empresa, setAuthLocal, user } = useAuth();
     const [loading, setLoading] = useState(false);
     const [locais, setLocais] = useState([]);
 
@@ -25,29 +25,28 @@ const SelectLocal = () => {
             return;
         }
 
-        await setAuthLocal(local)
+        await setAuthLocal(local);
 
         navigation.navigate('Home');
     }
 
-    useEffect(() => {
-        async function getLocais() {
-            setLoading(true);
-            try {
-                const response = await api.get(`/locais?empresaId=${empresa.id}`)
-                const { data } = response;
-                setLocais(data)
-                setLoading(false);
-
-            } catch (error) {
-                setLoading(false);
-                setLocais([])
-                const validation = handlingErros(error);
-                setError(validation);
-            }
+    async function myAsyncEffect() {
+        setLoading(true);
+        try {
+            const response = await api.get(`/locais?empresaId=${empresa.id}`);
+            const { data } = response;
+            setLocais(data);
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            setLocais([]);
+            const validation = handlingErros(error);
+            setError(validation);
         }
+    }
 
-        getLocais();
+    useEffect(() => {
+        myAsyncEffect();
     }, []);
 
     return (
@@ -81,16 +80,18 @@ const SelectLocal = () => {
                 </Button>
             </View>
 
-            <FAB
-                label="Locais"
-                style={styles.fab}
-                icon="plus"
-                onPress={() =>
-                    navigation.navigate('locais_list', {
-                        refresh: myAsyncEffect.bind(this),
-                    })
-                }
-            />
+            {(user?.tipo === 'master' || user?.tipo === ' admin') && (
+                <FAB
+                    label="Locais"
+                    style={styles.fab}
+                    icon="plus"
+                    onPress={() =>
+                        navigation.navigate('LocalNew', {
+                            refresh: myAsyncEffect.bind(this),
+                        })
+                    }
+                />
+            )}
         </View>
     );
 };

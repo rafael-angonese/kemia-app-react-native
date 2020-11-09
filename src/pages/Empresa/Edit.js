@@ -52,11 +52,9 @@ const Edit = ({ route }) => {
 
         setLoading(true);
         try {
-            const response = await api.put(`/equipamentos/${item.id}`, {
+            const response = await api.put(`/empresas/${item.id}`, {
                 nome,
                 descricao,
-                local_id: local.id,
-                empresa_id: empresa.id,
             });
             setLoading(false);
             const { data } = response;
@@ -65,7 +63,7 @@ const Edit = ({ route }) => {
             setDescricao('');
             setSnackbar(true);
             refresh();
-            navigation.navigate('EquipamentoList');
+            navigation.navigate('EmpresaList');
         } catch (error) {
             setLoading(false);
             const validation = handlingErros(error);

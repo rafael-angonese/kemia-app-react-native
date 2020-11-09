@@ -19,15 +19,15 @@ const Show = ({ route }) => {
     const [loading, setLoading] = useState(false);
 
     async function excluir() {
-        setDialog(false);
-        setLoading(true);
+        setDialog(false)
+        setLoading(true)
         try {
-            const response = await api.delete('/lagoas/' + item.id);
-            setLoading(false);
-            refresh();
-            navigation.navigate('LagoaList');
+            const response = await api.delete('/empresas/' + item.id);
+            setLoading(false)
+            refresh()
+            navigation.navigate('EmpresaList')
         } catch (error) {
-            setLoading(false);
+            setLoading(false)
             // setError('Não foi possível excluir este local.')
             const validation = handlingErros(error);
             setError(validation);
@@ -47,14 +47,9 @@ const Show = ({ route }) => {
                 <Text style={styles.error}>{error?.error}</Text>
             )}
 
-            <Text style={styles.title_view}>Detalhes da Lagoa</Text>
+            <Text style={styles.title_view}>Detalhes da Empresa</Text>
             <Text>Nome: {item.nome}</Text>
             <Text>Descrição: {item.descricao}</Text>
-            <Text>pH: {item.is_ph == true ? 'Sim' : 'Não'}</Text>
-            <Text>OD: {item.is_od == true ? 'Sim' : 'Não'}</Text>
-            <Text>SS: {item.is_ss == true ? 'Sim' : 'Não'}</Text>
-            <Text>Aeração: {item.is_aeracao == true ? 'Sim' : 'Não'}</Text>
-            <Text>Observações: {item.is_observacao == true ? 'Sim' : 'Não'}</Text>
 
             <View style={styles.container_row}>
                 <Button
@@ -62,7 +57,7 @@ const Show = ({ route }) => {
                     icon="pencil"
                     mode="contained"
                     onPress={() =>
-                        navigation.navigate('LagoaEdit', {
+                        navigation.navigate('EmpresaEdit', {
                             item: item,
                             refresh: refresh.bind(this),
                         })

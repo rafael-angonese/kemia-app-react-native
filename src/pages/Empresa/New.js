@@ -6,10 +6,9 @@ import {
     ScrollView,
     Keyboard,
 } from 'react-native';
+import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import { TextInput, Snackbar, Button, HelperText } from 'react-native-paper';
 import * as Yup from 'yup';
-import { useNavigation } from '@react-navigation/native';
-import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 
 import { useAuth } from '../../contexts/auth';
 import yupValidator from '../../utils/yupValidator';
@@ -18,10 +17,8 @@ import api from '../../services/api';
 
 import styles from '../Styles/styles';
 
-const Edit = ({ route }) => {
-    const { item } = route.params;
+const New = ({ route }) => {
     const { refresh } = route.params;
-    const navigation = useNavigation();
     const { empresa, local } = useAuth();
 
     const [loading, setLoading] = useState(false);
@@ -29,11 +26,10 @@ const Edit = ({ route }) => {
     const nomeRef = useRef();
     const descricaoRef = useRef();
 
-    const [nome, setNome] = useState(item.nome);
-    const [descricao, setDescricao] = useState(item.descricao);
-
-    const [error, setError] = useState({});
+    const [nome, setNome] = useState('');
+    const [descricao, setDescricao] = useState('');
     const [snackbar, setSnackbar] = useState(false);
+    const [error, setError] = useState({});
 
     async function salvar() {
         const schema = Yup.object().shape({
@@ -52,11 +48,9 @@ const Edit = ({ route }) => {
 
         setLoading(true);
         try {
-            const response = await api.put(`/equipamentos/${item.id}`, {
+            const response = await api.post('/empresas', {
                 nome,
                 descricao,
-                local_id: local.id,
-                empresa_id: empresa.id,
             });
             setLoading(false);
             const { data } = response;
@@ -65,7 +59,6 @@ const Edit = ({ route }) => {
             setDescricao('');
             setSnackbar(true);
             refresh();
-            navigation.navigate('EquipamentoList');
         } catch (error) {
             setLoading(false);
             const validation = handlingErros(error);
@@ -91,7 +84,6 @@ const Edit = ({ route }) => {
                     label="Descrição:"
                     value={descricao}
                     ref={descricaoRef}
-                    onSubmitEditing={() => enderecoRef.current.focus()}
                     onChangeText={(text) => setDescricao(text)}
                 />
                 <HelperText type="error" visible={true}>
@@ -100,7 +92,7 @@ const Edit = ({ route }) => {
 
                 <ActivityIndicator
                     style={
-                        loading == true
+                        loading === true
                             ? { display: 'flex' }
                             : { display: 'none' }
                     }
@@ -108,7 +100,7 @@ const Edit = ({ route }) => {
                     color="#0000ff"
                 />
                 {error.length !== 0 && (
-                    <Text style={styles.error}>{error?.request}</Text>
+                    <Text style={styles.error}>{error?.error}</Text>
                 )}
 
                 <Button
@@ -138,4 +130,4 @@ const Edit = ({ route }) => {
     );
 };
 
-export default Edit;
+export default New;

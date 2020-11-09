@@ -30,23 +30,23 @@ const SelectEmpresa = () => {
         navigation.navigate('SelectLocal');
     }
 
-    useEffect(() => {
-        async function getEmpresas() {
-            setLoading(true);
-            try {
-                const response = await api.get('/empresas')
-                const { data } = response;
-                setEmpresas(data)
-                setLoading(false);
+    async function myAsyncEffect() {
+        setLoading(true);
+        try {
+            const response = await api.get('/empresas')
+            const { data } = response;
+            setEmpresas(data)
+            setLoading(false);
 
-            } catch (error) {
-                setLoading(false);
-                const validation = handlingErros(error);
-                setError(validation);
-            }
+        } catch (error) {
+            setLoading(false);
+            const validation = handlingErros(error);
+            setError(validation);
         }
+    }
 
-        getEmpresas();
+    useEffect(() => {
+        myAsyncEffect();
     }, []);
 
     return (
@@ -85,7 +85,7 @@ const SelectEmpresa = () => {
                 style={styles.fab}
                 icon="plus"
                 onPress={() =>
-                    navigation.navigate('empresa_list', {
+                    navigation.navigate('EmpresaNew', {
                         refresh: myAsyncEffect.bind(this),
                     })
                 }

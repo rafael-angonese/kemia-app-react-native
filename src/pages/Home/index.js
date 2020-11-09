@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Button, StyleSheet, ScrollView, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { useAuth } from '../../contexts/auth';
-import Admin from './Admin'
+import Admin from './Admin';
+import Operator from './Operator';
 
 const styles = StyleSheet.create({
     container: {
@@ -20,18 +21,25 @@ const Home = () => {
     return (
         <View>
             <ScrollView>
-                <Text>Nome: {user?.nome}</Text>
-                <Text>Tipo: {user?.tipo}</Text>
-                {/* <Text>Empresa: {user.empresa_id}</Text> */}
-                <Text>Empresa: {empresa?.nome}</Text>
-                <Text>Local: {local?.nome}</Text>
-                <Button
-                    title="Entrar"
-                    onPress={() => navigation.navigate('SelectEmpresa')}
-                />
-                {(user?.tipo === 'master' || user?.tipo === 'admin') && <Admin />}
-
-
+                <View style={styles.container}>
+                    <Text>Nome: {user?.nome}</Text>
+                    <Text>Empresa: {empresa?.nome}</Text>
+                    <Text>Local: {local?.nome}</Text>
+                    <Button
+                        title="Alterar"
+                        onPress={() => {
+                            if (user?.tipo === 'master') {
+                                navigation.navigate('SelectEmpresa');
+                            } else {
+                                navigation.navigate('SelectLocal');
+                            }
+                        }}
+                    />
+                </View>
+                {(user?.tipo === 'master' || user?.tipo === 'admin') && (
+                    <Admin />
+                )}
+                {user?.tipo === 'operator' && <Operator />}
             </ScrollView>
         </View>
     );

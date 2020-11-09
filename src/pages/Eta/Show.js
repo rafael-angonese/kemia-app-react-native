@@ -50,18 +50,18 @@ const Show = ({ route }) => {
             <Text style={styles.title_view}>Detalhes da Eta</Text>
             <Text>Nome: {item.nome}</Text>
             <Text>Descrição: {item.descricao}</Text>
-            <Text>Vazão: {item.is_vazao == true ? 'Ativo' : 'Inativo'}</Text>
-            <Text>pH: {item.is_ph == true ? 'Ativo' : 'Inativo'}</Text>
-            <Text>% PAC: {item.is_pac == true ? 'Ativo' : 'Inativo'}</Text>
+            <Text>Vazão: {item.is_vazao == true ? 'Sim' : 'Não'}</Text>
+            <Text>pH: {item.is_ph == true ? 'Sim' : 'Não'}</Text>
+            <Text>% PAC: {item.is_pac == true ? 'Sim' : 'Não'}</Text>
             <Text>
-                % Polímero: {item.is_polimero == true ? 'Ativo' : 'Inativo'}
+                % Polímero: {item.is_polimero == true ? 'Sim' : 'Não'}
             </Text>
             <Text>
                 % Hipoclorito:{' '}
-                {item.is_hipoclorito == true ? 'Ativo' : 'Inativo'}
+                {item.is_hipoclorito == true ? 'Sim' : 'Não'}
             </Text>
             <Text>
-                Observações: {item.is_observacao == true ? 'Ativo' : 'Inativo'}
+                Observações: {item.is_observacao == true ? 'Sim' : 'Não'}
             </Text>
 
             <View style={styles.container_row}>
