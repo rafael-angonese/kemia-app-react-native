@@ -9,7 +9,7 @@ import handlingErros from '../../utils/handlingErros';
 import styles from './styles';
 
 const Login = () => {
-    const { setToken, setAuthUser, setAuthEmpresa } = useAuth();
+    const { setAuthToken, setAuthUser, setAuthEmpresa } = useAuth();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState({});
     const senhadRef = useRef();
@@ -43,7 +43,7 @@ const Login = () => {
               const { data } = response;
               const { token, refreshToken, user } = data;
 
-              setToken(token, refreshToken);
+              setAuthToken(token, refreshToken);
               api.defaults.headers.Authorization = `Bearer ${token}`;
               setAuthEmpresa(user.empresa)
               setAuthUser(user);

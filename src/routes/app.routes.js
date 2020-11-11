@@ -116,7 +116,7 @@ const HomeRoutes = () => {
 
     return (
         <HomeStack.Navigator>
-            {/* <HomeStack.Screen name="Home" component={Home} /> */}
+            <HomeStack.Screen name="Home" component={Home} />
 
             {user.tipo === 'master' && (
                 <HomeStack.Screen
@@ -132,7 +132,7 @@ const HomeRoutes = () => {
                 component={SelectLocal}
             />
 
-            <HomeStack.Screen name="Home" component={Home} />
+            {/* <HomeStack.Screen name="Home" component={Home} /> */}
 
             <HomeStack.Screen
                 name="EmpresaList"

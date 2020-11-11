@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [empresa, setEmpresa] = useState(null);
     const [local, setLocal] = useState(null);
+    const [token, setToken] = useState(null);
 
     useEffect(() => {
         async function loadStoragedData() {
@@ -27,9 +28,10 @@ export const AuthProvider = ({ children }) => {
         loadStoragedData();
     }, []);
 
-    async function setToken(token, refreshToken) {
+    async function setAuthToken(token, refreshToken) {
         await Storage.setItem(Storage.tokenKey, token);
         await Storage.setItem(Storage.refreshTokenKey, refreshToken);
+        setToken(token)
     }
 
     async function setAuthUser(user) {
@@ -64,7 +66,8 @@ export const AuthProvider = ({ children }) => {
                 user,
                 setUser,
                 setAuthUser,
-                setToken,
+                token,
+                setAuthToken,
                 empresa,
                 setAuthEmpresa,
                 local,

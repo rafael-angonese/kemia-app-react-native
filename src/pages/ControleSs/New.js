@@ -5,11 +5,13 @@ import {
     ActivityIndicator,
     ScrollView,
     Keyboard,
+    Image,
 } from 'react-native';
 import { TextInput, Snackbar, Button, HelperText } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { CustomPicker } from 'react-native-custom-picker';
 import * as Yup from 'yup';
+import ImagePicker from 'react-native-image-picker';
 
 import { useAuth } from '../../contexts/auth';
 import yupValidator from '../../utils/yupValidator';
@@ -33,6 +35,8 @@ const New = ({ route }) => {
     const [reator_3, setReator_3] = useState('');
     const [tratado, setTratado] = useState('');
     const [acaoCorretiva, setAcaoCorretiva] = useState('');
+    const [efluente_bruto, setEfluente_bruto] = useState(null);
+    const [efluente_tratado, setEfluente_tratado] = useState(null);
 
     const [show_data, setShow_data] = useState(false);
     const [show_hora, setShow_hora] = useState(false);
@@ -57,7 +61,7 @@ const New = ({ route }) => {
 
         setLoading(true);
         try {
-            const response = await api.post('/controle-sses', {
+            const body = {
                 data: formatDate(data, 'yyyy-MM-dd'),
                 hora: formatDate(hora, 'yyyy-MM-dd HH:mm:ss'),
                 bruto,
@@ -68,9 +72,34 @@ const New = ({ route }) => {
                 acao_corretiva: acaoCorretiva,
                 empresa_id: empresa.id,
                 local_id: local.id,
+            };
+            const dados = new FormData();
+
+            if (efluente_bruto) {
+                dados.append('efluente_bruto', {
+                    type: 'image/jpeg',
+                    name: efluente_bruto.fileName,
+                    uri: `file:///${efluente_bruto.path}`,
+                });
+            }
+
+            if (efluente_tratado) {
+                dados.append('efluente_tratado', {
+                    // name: efluente_bruto.fileName,
+                    // type: efluente_bruto.type,
+                    type: 'image/jpeg',
+                    name: efluente_bruto.fileName,
+                    uri: `file:///${efluente_tratado.path}`,
+                });
+            }
+
+            Object.keys(body).forEach((key) => {
+                dados.append(key, body[key]);
             });
+
+            const response = await api.post('/controle-sses', dados);
+
             setLoading(false);
-            // const { data } = response;
 
             setData(Date.now());
             setHora(Date.now());
@@ -80,6 +109,8 @@ const New = ({ route }) => {
             setReator_3('');
             setTratado('');
             setAcaoCorretiva('');
+            setEfluente_bruto(null);
+            setEfluente_tratado(null);
             setSnackbar(true);
             refresh();
         } catch (error) {
@@ -87,6 +118,40 @@ const New = ({ route }) => {
             const validation = handlingErros(error);
             setError(validation);
         }
+    }
+
+    async function selectImageBruto() {
+        const options = {
+            title: 'Selecione uma Imagem',
+            takePhotoButtonTitle: 'Câmera',
+            chooseFromLibraryButtonTitle: 'Escolher na galeria',
+            cancelButtonTitle: 'Cancelar',
+            noData: false,
+            mediaType: 'photo',
+        };
+
+        ImagePicker.showImagePicker(options, (response) => {
+            if (response.uri) {
+                setEfluente_bruto(response);
+            }
+        });
+    }
+
+    async function selectImageTratado() {
+        const options = {
+            title: 'Selecione uma Imagem',
+            takePhotoButtonTitle: 'Câmera',
+            chooseFromLibraryButtonTitle: 'Escolher na galeria',
+            cancelButtonTitle: 'Cancelar',
+            noData: false,
+            mediaType: 'photo',
+        };
+
+        ImagePicker.showImagePicker(options, (response) => {
+            if (response.uri) {
+                setEfluente_tratado(response);
+            }
+        });
     }
 
     return (
@@ -108,7 +173,7 @@ const New = ({ route }) => {
                     keyboardType={'numeric'}
                     onChangeText={(text) => setBruto(text)}
                 />
-                <HelperText type="error" visible={true}>
+                <HelperText type="error" visible={error?.bruto}>
                     {error?.bruto}
                 </HelperText>
 
@@ -160,6 +225,50 @@ const New = ({ route }) => {
                 <HelperText type="error" visible={true}>
                     {error?.acaoCorretiva}
                 </HelperText>
+
+                {/* {efluente_bruto && <Image source={{ uri: `data:image/jpeg;base64,${efluente_bruto}` }} style={{ width: '100%', height: 200, resizeMode: 'contain' }}></Image>} */}
+                {efluente_bruto && (
+                    <Image
+                        source={{ uri: efluente_bruto.uri }}
+                        style={{
+                            width: '100%',
+                            height: 200,
+                            resizeMode: 'contain',
+                        }}
+                    ></Image>
+                )}
+
+                <Button
+                    icon="image"
+                    style={{ marginTop: 5, marginBottom: 20 }}
+                    onPress={() => {
+                        selectImageBruto();
+                    }}
+                >
+                    Efluente Bruto
+                </Button>
+
+                {/* {efluente_tratado && <Image source={{ uri: `data:image/jpeg;base64,${efluente_tratado}` }} style={{ width: '100%', height: 200, resizeMode: 'contain' }}></Image>} */}
+                {efluente_tratado && (
+                    <Image
+                        source={{ uri: efluente_tratado.uri }}
+                        style={{
+                            width: '100%',
+                            height: 200,
+                            resizeMode: 'contain',
+                        }}
+                    ></Image>
+                )}
+
+                <Button
+                    icon="image"
+                    style={{ marginTop: 5 }}
+                    onPress={() => {
+                        selectImageTratado();
+                    }}
+                >
+                    Efluente Tratado
+                </Button>
 
                 {show_data && (
                     <DateTimePicker
