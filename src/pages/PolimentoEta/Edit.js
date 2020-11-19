@@ -5,6 +5,7 @@ import {
     ActivityIndicator,
     ScrollView,
     Keyboard,
+    Image,
 } from 'react-native';
 import {
     TextInput,
@@ -18,6 +19,7 @@ import { useNavigation } from '@react-navigation/native';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { CustomPicker } from 'react-native-custom-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 
 import { useAuth } from '../../contexts/auth';
 import yupValidator from '../../utils/yupValidator';
@@ -36,6 +38,8 @@ const Edit = ({ route }) => {
     const [loading, setLoading] = useState(false);
     const [etas, setEtas] = useState([]);
 
+    const [images, setImages] = useState([]);
+
     const [data, setData] = useState(new Date(item.data));
     const [eta, setEta] = useState(item.eta);
     const [vazao, setVazao] = useState(item.vazao);
@@ -45,12 +49,26 @@ const Edit = ({ route }) => {
     const [hipoclorito, setHipoclorito] = useState(item.hipoclorito);
     const [observacao, setObservacao] = useState(item.observacao);
 
-    const [ph_caixa_saida_eta, setPh_caixa_saida_eta] = useState(item.ph_caixa_saida_eta);
-    const [ss_caixa_saida_eta, setSs_caixa_saida_eta] = useState(item.ss_caixa_saida_eta);
-    const [observacao_caixa_saida_eta, setObservacao_caixa_saida_eta] = useState(item.observacao_caixa_saida_eta);
-    const [ph_caixa_saida_final, setPh_caixa_saida_final] = useState(item.ph_caixa_saida_final);
-    const [ss_caixa_saida_final, setSs_caixa_saida_final] = useState(item.ss_caixa_saida_final);
-    const [observacao_caixa_saida_final, setObservacao_caixa_saida_final] = useState(item.observacao_caixa_saida_final);
+    const [ph_caixa_saida_eta, setPh_caixa_saida_eta] = useState(
+        item.ph_caixa_saida_eta
+    );
+    const [ss_caixa_saida_eta, setSs_caixa_saida_eta] = useState(
+        item.ss_caixa_saida_eta
+    );
+    const [
+        observacao_caixa_saida_eta,
+        setObservacao_caixa_saida_eta,
+    ] = useState(item.observacao_caixa_saida_eta);
+    const [ph_caixa_saida_final, setPh_caixa_saida_final] = useState(
+        item.ph_caixa_saida_final
+    );
+    const [ss_caixa_saida_final, setSs_caixa_saida_final] = useState(
+        item.ss_caixa_saida_final
+    );
+    const [
+        observacao_caixa_saida_final,
+        setObservacao_caixa_saida_final,
+    ] = useState(item.observacao_caixa_saida_final);
 
     const [show_data, setShow_data] = useState(false);
 
@@ -73,7 +91,7 @@ const Edit = ({ route }) => {
         setLoading(true);
 
         try {
-            const response = await api.put(`/polimento-etas/${item.id}`, {
+            const body = {
                 data: formatDate(data, 'yyyy-MM-dd'),
                 vazao,
                 ph,
@@ -90,7 +108,22 @@ const Edit = ({ route }) => {
                 eta_id: eta.id,
                 empresa_id: empresa.id,
                 local_id: local.id,
+            };
+            let dados = new FormData();
+
+            images.forEach((image, index) => {
+                dados.append(`image[${index}]`, {
+                    uri: image.path,
+                    type: 'image/jpeg',
+                    name: 'image' + index + '.jpg',
+                });
             });
+
+            Object.keys(body).forEach((key) => {
+                dados.append(key, body[key]);
+            });
+
+            const response = await api.put(`/polimento-etas/${item.id}`, dados);
             setLoading(false);
             // const { data } = response;
 
@@ -102,7 +135,15 @@ const Edit = ({ route }) => {
             const validation = handlingErros(error);
             setError(validation);
         }
+    }
 
+    async function selectImage() {
+        ImagePicker.openPicker({
+            multiple: true,
+            cropping: true,
+        }).then((images) => {
+            setImages(images);
+        });
     }
 
     async function myAsyncEffect() {
@@ -273,6 +314,32 @@ const Edit = ({ route }) => {
                 <HelperText type="error" visible={true}>
                     {error?.observacao_caixa_saida_final}
                 </HelperText>
+
+                <Button
+                    icon="image"
+                    style={{ marginTop: 5, marginBottom: 20 }}
+                    onPress={() => {
+                        selectImage();
+                    }}
+                >
+                    Efluentes
+                </Button>
+
+                {images.length > 0 &&
+                    images.map((image) => {
+                        return (
+                            <Image
+                                key={image.path}
+                                source={{ uri: image.path }}
+                                style={{
+                                    width: '100%',
+                                    height: 200,
+                                    marginTop: 20,
+                                    resizeMode: 'contain',
+                                }}
+                            ></Image>
+                        );
+                    })}
 
                 {show_data && (
                     <DateTimePicker

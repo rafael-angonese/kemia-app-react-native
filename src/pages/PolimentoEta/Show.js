@@ -2,12 +2,14 @@ import React, { Component, useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { Button, Chip, Paragraph, Dialog, Portal } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import ImageView from 'react-native-image-view';
 
 import { useAuth } from '../../contexts/auth';
 import yupValidator from '../../utils/yupValidator';
 import handlingErros from '../../utils/handlingErros';
 import api from '../../services/api';
 import styles from '../Styles/styles';
+import { baseURL } from '../../config/constants';
 
 const Show = ({ route }) => {
     const { refresh } = route.params;
@@ -15,6 +17,8 @@ const Show = ({ route }) => {
     const [error, setError] = useState('');
     const [dialog, setDialog] = useState(false);
     const navigation = useNavigation();
+    const [images, setImages] = useState([]);
+    const [show_image, setShow_image] = useState(false);
 
     const [loading, setLoading] = useState(false);
 
@@ -34,6 +38,23 @@ const Show = ({ route }) => {
         }
     }
 
+    useEffect(() => {
+        async function getImages() {
+            const imgs = item.files.map((file) => {
+                return {
+                    source: {
+                        uri: `${baseURL}/files/${file.id}`,
+                    },
+                    title: file.id,
+                    width: 806,
+                    height: 720,
+                };
+            });
+            setImages(imgs);
+        }
+        getImages();
+    }, [item]);
+
     return (
         <View style={styles.container}>
             <ActivityIndicator
@@ -47,7 +68,7 @@ const Show = ({ route }) => {
                 <Text style={styles.error}>{error?.error}</Text>
             )}
 
-            <Text style={styles.title_view}>Detalhes da Eta</Text>
+            <Text style={styles.title_view}>Detalhes Polimento com Eta</Text>
             <Text>Eta: {item?.eta?.nome}</Text>
             <Text>Vazão: {item.vazao}</Text>
             <Text>PAC: {item.pac}</Text>
@@ -64,6 +85,25 @@ const Show = ({ route }) => {
             <Text>pH: {item.ph_caixa_saida_final}</Text>
             <Text>SS: {item.ss_caixa_saida_final}</Text>
             <Text>Observação: {item.observacao_caixa_saida_final}</Text>
+
+            {item?.files.length > 0 && (
+                <Button
+                    icon="image"
+                    style={{ marginTop: 20 }}
+                    onPress={() => {
+                        setShow_image(true);
+                    }}
+                >
+                    Visualizar Imagem
+                </Button>
+            )}
+
+            <ImageView
+                images={images}
+                imageIndex={0}
+                isVisible={show_image}
+                onClose={() => setShow_image(false)}
+            />
 
             <View style={styles.container_row}>
                 <Button

@@ -5,11 +5,13 @@ import {
     ActivityIndicator,
     ScrollView,
     Keyboard,
+    Image,
 } from 'react-native';
 import { TextInput, Snackbar, Button, HelperText } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { CustomPicker } from 'react-native-custom-picker';
 import * as Yup from 'yup';
+import ImagePicker from 'react-native-image-crop-picker';
 
 import { useAuth } from '../../contexts/auth';
 import yupValidator from '../../utils/yupValidator';
@@ -37,10 +39,18 @@ const New = ({ route }) => {
 
     const [ph_caixa_saida_eta, setPh_caixa_saida_eta] = useState('');
     const [ss_caixa_saida_eta, setSs_caixa_saida_eta] = useState('');
-    const [observacao_caixa_saida_eta, setObservacao_caixa_saida_eta] = useState('');
+    const [
+        observacao_caixa_saida_eta,
+        setObservacao_caixa_saida_eta,
+    ] = useState('');
     const [ph_caixa_saida_final, setPh_caixa_saida_final] = useState('');
     const [ss_caixa_saida_final, setSs_caixa_saida_final] = useState('');
-    const [observacao_caixa_saida_final, setObservacao_caixa_saida_final] = useState('');
+    const [
+        observacao_caixa_saida_final,
+        setObservacao_caixa_saida_final,
+    ] = useState('');
+
+    const [images, setImages] = useState([]);
 
     const [show_data, setShow_data] = useState(false);
 
@@ -62,7 +72,7 @@ const New = ({ route }) => {
 
         setLoading(true);
         try {
-            const response = await api.post('/polimento-etas', {
+            const body = {
                 data: formatDate(data, 'yyyy-MM-dd'),
                 vazao,
                 ph,
@@ -79,7 +89,23 @@ const New = ({ route }) => {
                 eta_id: eta.id,
                 empresa_id: empresa.id,
                 local_id: local.id,
+            };
+            let dados = new FormData();
+
+            images.forEach((image, index) => {
+                dados.append(`image[${index}]`, {
+                    uri: image.path,
+                    type: 'image/jpeg',
+                    name: 'image' + index + '.jpg',
+                });
             });
+
+            Object.keys(body).forEach((key) => {
+                dados.append(key, body[key]);
+            });
+
+            const response = await api.post('/polimento-etas', dados);
+
             setLoading(false);
             // const { data } = response;
 
@@ -96,7 +122,8 @@ const New = ({ route }) => {
             setPh_caixa_saida_final('');
             setSs_caixa_saida_final('');
             setObservacao_caixa_saida_final('');
-            setEta(null)
+            setImages([]);
+            setEta(null);
 
             setSnackbar(true);
             refresh();
@@ -105,6 +132,15 @@ const New = ({ route }) => {
             const validation = handlingErros(error);
             setError(validation);
         }
+    }
+
+    async function selectImage() {
+        ImagePicker.openPicker({
+            multiple: true,
+            cropping: true,
+        }).then((images) => {
+            setImages(images);
+        });
     }
 
     async function myAsyncEffect() {
@@ -268,11 +304,39 @@ const New = ({ route }) => {
                 <TextInput
                     label="Observações:"
                     value={observacao_caixa_saida_final}
-                    onChangeText={(text) => setObservacao_caixa_saida_final(text)}
+                    onChangeText={(text) =>
+                        setObservacao_caixa_saida_final(text)
+                    }
                 />
                 <HelperText type="error" visible={true}>
                     {error?.observacao_caixa_saida_final}
                 </HelperText>
+
+                <Button
+                    icon="image"
+                    style={{ marginTop: 5, marginBottom: 20 }}
+                    onPress={() => {
+                        selectImage();
+                    }}
+                >
+                    Efluentes
+                </Button>
+
+                {images.length > 0 &&
+                    images.map((image) => {
+                        return (
+                            <Image
+                                key={image.path}
+                                source={{ uri: image.path }}
+                                style={{
+                                    width: '100%',
+                                    height: 200,
+                                    marginTop: 20,
+                                    resizeMode: 'contain',
+                                }}
+                            ></Image>
+                        );
+                    })}
 
                 {show_data && (
                     <DateTimePicker
