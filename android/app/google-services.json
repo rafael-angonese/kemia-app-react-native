@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "996000683473",
+    "firebase_url": "https://kemia-38047.firebaseio.com",
+    "project_id": "kemia-38047",
+    "storage_bucket": "kemia-38047.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996000683473:android:05a2c855f12bfbe8efbcf0",
+        "android_client_info": {
+          "package_name": "com.kemia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996000683473-tvqr82n9ob67ut55l48jjv28t9i07o8u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg8zxvDtSxD-Gl4ZbM7KgkL2VaVGla6sA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996000683473-tvqr82n9ob67ut55l48jjv28t9i07o8u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,13 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { List, Menu } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import OneSignal from 'react-native-onesignal';
 
 import { useAuth } from '../../contexts/auth';
 
 const Admin = (props) => {
     const { logout, user } = useAuth();
     const navigation = useNavigation();
+
+    async function onReceived(notification) {
+        console.log('Notification received: ', notification);
+    }
+
+    async function onOpened(openResult) {
+        console.log('Message: ', openResult.notification.payload.body);
+        console.log('Data: ', openResult.notification.payload.additionalData);
+        console.log('isActive: ', openResult.notification.isAppInFocus);
+        console.log('openResult: ', openResult);
+    }
+
+    async function onIds(device) {
+        console.log('Device info: ', device);
+    }
+
+    useEffect(() => {
+        OneSignal.init('9f97a338-065f-45f2-8c29-75af67c161b2');
+        OneSignal.addEventListener('received', onReceived);
+        OneSignal.addEventListener('opened', onOpened);
+        OneSignal.addEventListener('ids', onIds);
+    }, []);
 
     return (
         <View>
@@ -29,6 +52,14 @@ const Admin = (props) => {
                 left={(props) => <List.Icon {...props} icon="cogs" />}
                 onPress={() => {
                     navigation.navigate('ConfiguracaoList');
+                }}
+            />
+            <List.Item
+                title="Notificações"
+                description=""
+                left={(props) => <List.Icon {...props} icon="bell" />}
+                onPress={() => {
+                    navigation.navigate('NotificacaoList');
                 }}
             />
             <List.Item

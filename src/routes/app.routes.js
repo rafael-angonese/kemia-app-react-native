@@ -14,6 +14,9 @@ import ConfiguracaoList from '../pages/Configuracao/List';
 import ConfiguracaoShow from '../pages/Configuracao/Show';
 import ConfiguracaoEdit from '../pages/Configuracao/Edit';
 
+import NotificacaoList from '../pages/Notificacao/List';
+import NotificacaoShow from '../pages/Notificacao/Show';
+
 import TarefaList from '../pages/Tarefa/List';
 import TarefaNew from '../pages/Tarefa/New';
 import TarefaShow from '../pages/Tarefa/Show';
@@ -211,6 +214,17 @@ const HomeRoutes = () => {
                 name="ConfiguracaoEdit"
                 options={{ title: 'Configurações' }}
                 component={ConfiguracaoEdit}
+            />
+
+            <HomeStack.Screen
+                name="NotificacaoList"
+                options={{ title: 'Notificações' }}
+                component={NotificacaoList}
+            />
+            <HomeStack.Screen
+                name="NotificacaoShow"
+                options={{ title: 'Notificações' }}
+                component={NotificacaoShow}
             />
 
             <HomeStack.Screen
