@@ -49,7 +49,7 @@ const Show = ({ route }) => {
 
             <Text style={styles.title_view}>Controle</Text>
             <Text style={styles.title_view}>de</Text>
-            <Text style={styles.title_view}>Tanques</Text>
+            <Text style={styles.title_view}>Rotação da Bomba</Text>
 
             <Text>Data: {formatDate(item.data)}</Text>
             <Text>Hora: {item.hora.slice(0, -3)}</Text>

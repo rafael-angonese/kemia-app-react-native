@@ -189,64 +189,87 @@ const New = ({ route }) => {
                     {error?.eta}
                 </HelperText>
 
-                <TextInput
-                    label="Vazão:"
-                    value={vazao}
-                    keyboardType={'numeric'}
-                    onChangeText={(text) => setVazao(text)}
-                />
-                <HelperText type="error" visible={true}>
-                    {error?.vazao}
-                </HelperText>
+                {eta?.is_vazao && (
+                    <TextInput
+                        label="Vazão:"
+                        value={vazao}
+                        keyboardType={'numeric'}
+                        onChangeText={(text) => setVazao(text)}
+                    />
+                )}
+                {eta?.is_vazao && (
+                    <HelperText type="error" visible={true}>
+                        {error?.vazao}
+                    </HelperText>
+                )}
 
-                <TextInput
-                    label="pH:"
-                    value={ph}
-                    keyboardType={'numeric'}
-                    onChangeText={(text) => setPh(text)}
-                />
-                <HelperText type="error" visible={true}>
-                    {error?.ph}
-                </HelperText>
+                {eta?.is_ph && (
+                    <TextInput
+                        label="pH:"
+                        value={ph}
+                        keyboardType={'numeric'}
+                        onChangeText={(text) => setPh(text)}
+                    />
+                )}
+                {eta?.is_ph && (
+                    <HelperText type="error" visible={true}>
+                        {error?.ph}
+                    </HelperText>
+                )}
 
-                <TextInput
-                    label="PAC:"
-                    value={pac}
-                    keyboardType={'numeric'}
-                    onChangeText={(text) => setPac(text)}
-                />
-                <HelperText type="error" visible={true}>
-                    {error?.pac}
-                </HelperText>
+                {eta?.is_pac && (
+                    <TextInput
+                        label="PAC:"
+                        value={pac}
+                        keyboardType={'numeric'}
+                        onChangeText={(text) => setPac(text)}
+                    />
+                )}
+                {eta?.is_pac && (
+                    <HelperText type="error" visible={true}>
+                        {error?.pac}
+                    </HelperText>
+                )}
 
-                <TextInput
-                    label="% Polímero:"
-                    value={polimero}
-                    keyboardType={'numeric'}
-                    onChangeText={(text) => setPolimero(text)}
-                />
-                <HelperText type="error" visible={true}>
-                    {error?.polimero}
-                </HelperText>
+                {eta?.is_polimero && (
+                    <TextInput
+                        label="% Polímero:"
+                        value={polimero}
+                        keyboardType={'numeric'}
+                        onChangeText={(text) => setPolimero(text)}
+                    />
+                )}
+                {eta?.is_polimero && (
+                    <HelperText type="error" visible={true}>
+                        {error?.polimero}
+                    </HelperText>
+                )}
 
-                <TextInput
-                    label="% Hipoclorito:"
-                    value={hipoclorito}
-                    keyboardType={'numeric'}
-                    onChangeText={(text) => setHipoclorito(text)}
-                />
-                <HelperText type="error" visible={true}>
-                    {error?.hipoclorito}
-                </HelperText>
-
-                <TextInput
-                    label="Observações:"
-                    value={observacao}
-                    onChangeText={(text) => setObservacao(text)}
-                />
-                <HelperText type="error" visible={true}>
-                    {error?.observacao}
-                </HelperText>
+                {eta?.is_hipoclorito && (
+                    <TextInput
+                        label="% Hipoclorito:"
+                        value={hipoclorito}
+                        keyboardType={'numeric'}
+                        onChangeText={(text) => setHipoclorito(text)}
+                    />
+                )}
+                {eta?.is_hipoclorito && (
+                    <HelperText type="error" visible={true}>
+                        {error?.hipoclorito}
+                    </HelperText>
+                )}
+                {eta?.is_obervacao && (
+                    <TextInput
+                        label="Observações:"
+                        value={observacao}
+                        onChangeText={(text) => setObservacao(text)}
+                    />
+                )}
+                {eta?.is_observacao && (
+                    <HelperText type="error" visible={true}>
+                        {error?.observacao}
+                    </HelperText>
+                )}
 
                 <Text>Caixa de saída ETA</Text>
 

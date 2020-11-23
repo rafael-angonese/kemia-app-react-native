@@ -71,6 +71,7 @@ const Show = ({ route }) => {
             <Text style={styles.title_view}>Detalhes Polimento com Eta</Text>
             <Text>Eta: {item?.eta?.nome}</Text>
             <Text>Vazão: {item.vazao}</Text>
+            <Text>PH: {item.ph}</Text>
             <Text>PAC: {item.pac}</Text>
             <Text>Polímero: {item.polimero}</Text>
             <Text>Hipoclorito: {item.hipoclorito}</Text>

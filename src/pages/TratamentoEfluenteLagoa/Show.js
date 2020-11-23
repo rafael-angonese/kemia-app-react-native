@@ -57,7 +57,7 @@ const Show = ({ route }) => {
             <Text>Aeração: {item.aeracao}</Text>
             <Text>Observações: {item.observacao}</Text>
             <Text>Nível da Lagoa:  {item.nivel_lagoa == 1 ? 'Baixa' : item.nivel_lagoa == 2 ? 'Média' : 'Alta'}</Text>
-            <Text>Bombas de recalque funcionando:  {item.bomba_recalque_funcionando == 1 ? '1' : item.nivel_lbomba_recalque_funcionandoagoa == 2 ? '1' : 'Ambos'}</Text>
+            <Text>Bombas de recalque funcionando:  {item.bomba_recalque_funcionando == 1 ? '1' : item.bomba_recalque_funcionando == 2 ? '2' : 'Ambos'}</Text>
             <Text>Observação: {item.observacao_geral}</Text>
 
             <View style={styles.container_row}>
