@@ -13,8 +13,8 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState({});
     const senhadRef = useRef();
-    const [username, setUsername] = useState('rafael');
-    const [senha, setSenha] = useState('123456');
+    const [username, setUsername] = useState('');
+    const [senha, setSenha] = useState('');
 
     async function handleSubmit() {
 
