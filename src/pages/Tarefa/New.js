@@ -46,7 +46,7 @@ const New = ({ route }) => {
         },
         {
             id: 'CONTROLE-PH',
-            nome: 'Controle de PH',
+            nome: 'Controle de pH',
         },
         {
             id: 'CONTROLE-VAZAO',
@@ -70,11 +70,11 @@ const New = ({ route }) => {
         },
         {
             id: 'POLIMENTO-ETA',
-            nome: 'Polimneto com Eta',
+            nome: 'Polimento com ETA',
         },
         {
             id: 'TRATAMENTO-EFLUENTE-LAGOA',
-            nome: 'Tratamento de efluente com lagoa',
+            nome: 'Tratamento de Efluente com Lagoa',
         },
     ]);
 
