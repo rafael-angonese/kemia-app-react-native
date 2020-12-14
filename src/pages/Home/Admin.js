@@ -103,8 +103,8 @@ const Admin = (props) => {
                 }}
             />
             <List.Item
-                title="Eta"
-                description="Estações de tratamento de água"
+                title="ETA"
+                description="Estações de Tratamento de Água"
                 left={(props) => <List.Icon {...props} icon="engine" />}
                 onPress={() => {
                     navigation.navigate('EtaList');
@@ -122,7 +122,7 @@ const Admin = (props) => {
             />
             <List.Item
                 title="Equipamentos em Manutenção"
-                description="controle de equipamentos em manutenção"
+                description="Controle de Equipamentos em Manutenção"
                 left={(props) => (
                     <List.Icon {...props} icon="robot-industrial" />
                 )}
@@ -132,7 +132,7 @@ const Admin = (props) => {
             />
             <List.Item
                 title="Polimento com ETA"
-                description="polimento com etas"
+                description="Polimento com ETAs"
                 left={(props) => (
                     <List.Icon {...props} icon="robot-industrial" />
                 )}
@@ -142,7 +142,7 @@ const Admin = (props) => {
             />
             <List.Item
                 title="Tratamento Efluente Lagoa"
-                description="Tratamento Efluente Lagoa"
+                description="Tratamento de Efluente com Lagoa"
                 left={(props) => (
                     <List.Icon {...props} icon="robot-industrial" />
                 )}
@@ -152,7 +152,7 @@ const Admin = (props) => {
             />
             <List.Item
                 title="Controle Concentração de Cloro"
-                description="controle de concentração de cloro"
+                description="Controle de Concentração de Cloro"
                 left={(props) => (
                     <List.Icon {...props} icon="format-list-checks" />
                 )}
@@ -162,7 +162,7 @@ const Admin = (props) => {
             />
             <List.Item
                 title="Controle Pastilha de Cloro"
-                description="controle de pastilha de cloro"
+                description="Controle de Pastilha de Cloro"
                 left={(props) => (
                     <List.Icon {...props} icon="format-list-checks" />
                 )}
@@ -172,7 +172,7 @@ const Admin = (props) => {
             />
             <List.Item
                 title="Controle de Coletas"
-                description="planilha de controle de coleta"
+                description="Planilha de Controle de Coleta"
                 left={(props) => (
                     <List.Icon {...props} icon="format-list-checks" />
                 )}
@@ -182,7 +182,7 @@ const Admin = (props) => {
             />
             <List.Item
                 title="Controle de OD"
-                description="planilha de controle de OD"
+                description="Planilha de Controle de OD"
                 left={(props) => (
                     <List.Icon {...props} icon="format-list-checks" />
                 )}
@@ -191,8 +191,8 @@ const Admin = (props) => {
                 }}
             />
             <List.Item
-                title="Controle de Ss"
-                description="planilha de controle de Ss"
+                title="Controle de SS"
+                description="Planilha de Controle de SS"
                 left={(props) => (
                     <List.Icon {...props} icon="format-list-checks" />
                 )}
@@ -201,8 +201,8 @@ const Admin = (props) => {
                 }}
             />
             <List.Item
-                title="Controle de PH"
-                description="planilha de controle de PH"
+                title="Controle de pH"
+                description="Planilha de Controle de pH"
                 left={(props) => (
                     <List.Icon {...props} icon="format-list-checks" />
                 )}
@@ -212,7 +212,7 @@ const Admin = (props) => {
             />
             <List.Item
                 title="Controle de Vazão"
-                description="planilha de controle de Vazão"
+                description="Planilha de Controle de Vazão"
                 left={(props) => (
                     <List.Icon {...props} icon="format-list-checks" />
                 )}
@@ -222,7 +222,7 @@ const Admin = (props) => {
             />
             <List.Item
                 title="Controle de Tanques"
-                description="planilha de controle de tanques"
+                description="Planilha de Controle de Tanques"
                 left={(props) => (
                     <List.Icon {...props} icon="format-list-checks" />
                 )}
@@ -232,7 +232,7 @@ const Admin = (props) => {
             />
             <List.Item
                 title="Controle de Rotação da Bomba"
-                description="planilha de controle de rotação da bomba"
+                description="Planilha de Controle de Rotação da Bomba"
                 left={(props) => (
                     <List.Icon {...props} icon="format-list-checks" />
                 )}

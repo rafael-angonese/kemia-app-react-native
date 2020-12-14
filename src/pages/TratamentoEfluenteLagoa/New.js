@@ -149,54 +149,78 @@ const New = ({ route }) => {
                     {error?.lagoa}
                 </HelperText>
 
-                <TextInput
-                    label="pH:"
-                    value={ph}
-                    keyboardType={'numeric'}
-                    onChangeText={(text) => setPh(text)}
-                />
-                <HelperText type="error" visible={true}>
-                    {error?.ph}
-                </HelperText>
+                {lagoa?.is_ph && (
+                    <TextInput
+                        label="pH:"
+                        value={ph}
+                        keyboardType={'numeric'}
+                        onChangeText={(text) => setPh(text)}
+                    />
+                )}
+                {lagoa?.is_ph && (
+                    <HelperText type="error" visible={true}>
+                        {error?.ph}
+                    </HelperText>
+                )}
 
-                <TextInput
-                    label="OD:"
-                    value={od}
-                    keyboardType={'numeric'}
-                    onChangeText={(text) => setOd(text)}
-                />
-                <HelperText type="error" visible={true}>
-                    {error?.od}
-                </HelperText>
+                {lagoa?.is_od && (
+                    <TextInput
+                        label="OD:"
+                        value={od}
+                        keyboardType={'numeric'}
+                        onChangeText={(text) => setOd(text)}
+                    />
+                )}
 
-                <TextInput
-                    label="SS:"
-                    value={ss}
-                    keyboardType={'numeric'}
-                    onChangeText={(text) => setSs(text)}
-                />
-                <HelperText type="error" visible={true}>
-                    {error?.ss}
-                </HelperText>
+                {lagoa?.is_od && (
+                    <HelperText type="error" visible={true}>
+                        {error?.od}
+                    </HelperText>
+                )}
 
-                <TextInput
-                    label="Aeração:"
-                    value={aeracao}
-                    keyboardType={'numeric'}
-                    onChangeText={(text) => setAeracao(text)}
-                />
-                <HelperText type="error" visible={true}>
-                    {error?.aeracao}
-                </HelperText>
+                {lagoa?.is_ss && (
+                    <TextInput
+                        label="SS:"
+                        value={ss}
+                        keyboardType={'numeric'}
+                        onChangeText={(text) => setSs(text)}
+                    />
+                )}
 
-                <TextInput
-                    label="Observações:"
-                    value={observacao}
-                    onChangeText={(text) => setObservacao(text)}
-                />
-                <HelperText type="error" visible={true}>
-                    {error?.observacao}
-                </HelperText>
+                {lagoa?.is_ss && (
+                    <HelperText type="error" visible={true}>
+                        {error?.ss}
+                    </HelperText>
+                )}
+
+                {lagoa?.is_aeracao && (
+                    <TextInput
+                        label="Aeração:"
+                        value={aeracao}
+                        keyboardType={'numeric'}
+                        onChangeText={(text) => setAeracao(text)}
+                    />
+                )}
+
+                {lagoa?.is_aeracao && (
+                    <HelperText type="error" visible={true}>
+                        {error?.aeracao}
+                    </HelperText>
+                )}
+
+                {lagoa?.is_observacao && (
+                    <TextInput
+                        label="Observações:"
+                        value={observacao}
+                        onChangeText={(text) => setObservacao(text)}
+                    />
+                )}
+
+                {lagoa?.is_observacao && (
+                    <HelperText type="error" visible={true}>
+                        {error?.observacao}
+                    </HelperText>
+                )}
 
                 <Text style={{ marginTop: 30 }}>Nível da Lagoa:</Text>
                 <View style={styles.container_row}>

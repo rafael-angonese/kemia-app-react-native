@@ -78,7 +78,7 @@ const Login = () => {
                 placeholder="Senha"
                 value={senha}
                 autoCorrect={false}
-                // secureTextEntry={true}
+                secureTextEntry={true}
                 placeholderTextColor="#9a73ef"
                 autoCapitalize="none"
                 ref={senhadRef}

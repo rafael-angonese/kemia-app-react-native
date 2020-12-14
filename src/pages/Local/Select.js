@@ -33,7 +33,7 @@ const SelectLocal = () => {
     async function myAsyncEffect() {
         setLoading(true);
         try {
-            const response = await api.get(`/locais?empresaId=${empresa.id}`);
+            const response = await api.get(`/locais?empresaId=${empresa.id}`)
             const { data } = response;
             setLocais(data);
             setLoading(false);
