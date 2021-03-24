@@ -24,7 +24,7 @@ const Show = ({ route }) => {
 
             <Text style={styles.title_view}>Notificação</Text>
             <Text>Data: {formatDate(item.data)}</Text>
-            <Text>Usuário: {item?.user?.username}</Text>
+            <Text>Usuário: {item?.user?.nome}</Text>
             <Text>Mensagem: {item.mensagem}</Text>
         </View>
     );

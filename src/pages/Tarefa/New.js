@@ -148,7 +148,7 @@ const New = ({ route }) => {
         setLoading(true);
         try {
             const response = await api.get(
-                `operadores?empresaId=${empresa.id}`
+                `operadores_by_local?empresaId=${empresa.id}&localId=${local.id}`
             );
             const { data } = response;
             setUsers(data);

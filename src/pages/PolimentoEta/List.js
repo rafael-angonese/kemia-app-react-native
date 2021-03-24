@@ -170,26 +170,27 @@ const List = () => {
                     <Text style={styles.empty}>Desculpa, não há dados!</Text>
                 )}
 
-                {(user?.tipo === 'master' || user?.tipo === 'admin') && polimentos.length > 0 && (
-                    <View style={styles.container_button}>
-                        <Button
-                            style={{ borderRadius: 50, marginTop: 10 }}
-                            icon="email"
-                            mode="contained"
-                            onPress={() => showModal('xlsx')}
-                        >
-                            XLSX
-                        </Button>
-                        <Button
-                            style={{ borderRadius: 50, marginTop: 10 }}
-                            icon="email"
-                            mode="contained"
-                            onPress={() => showModal('pdf')}
-                        >
-                            PDF
-                        </Button>
-                    </View>
-                )}
+                {(user?.tipo === 'master' || user?.tipo === 'admin') &&
+                    polimentos.length > 0 && (
+                        <View style={styles.container_button}>
+                            <Button
+                                style={{ borderRadius: 50, marginTop: 10 }}
+                                icon="email"
+                                mode="contained"
+                                onPress={() => showModal('xlsx')}
+                            >
+                                XLSX
+                            </Button>
+                            <Button
+                                style={{ borderRadius: 50, marginTop: 10 }}
+                                icon="email"
+                                mode="contained"
+                                onPress={() => showModal('pdf')}
+                            >
+                                PDF
+                            </Button>
+                        </View>
+                    )}
             </ScrollView>
 
             <Modal
@@ -255,7 +256,9 @@ const List = () => {
                     display="default"
                     onChange={(event, date) => {
                         setShowStartDate(false);
-                        setStartDate(date);
+                        if (typeof date !== 'undefined') {
+                            setStartDate(date);
+                        }
                     }}
                 />
             )}
@@ -268,7 +271,9 @@ const List = () => {
                     display="default"
                     onChange={(event, date) => {
                         setShowEndDate(false);
-                        setEndDate(date);
+                        if (typeof date !== 'undefined') {
+                            setEndDate(date);
+                        }
                     }}
                 />
             )}

@@ -86,7 +86,7 @@ const New = ({ route }) => {
     async function myAsyncEffect() {
         setLoading(true);
         try {
-            const response = await api.get('users')
+            const response = await api.get(`users?empresaId=${empresa.id}`)
             const { data } = response;
             setUsuarios(data)
             setLoading(false);

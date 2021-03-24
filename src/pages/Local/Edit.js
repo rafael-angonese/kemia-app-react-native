@@ -88,7 +88,7 @@ const Edit = ({ route }) => {
     async function myAsyncEffect() {
         setLoading(true);
         try {
-            const response = await api.get('users');
+            const response = await api.get(`users?empresaId=${empresa.id}`)
             setLoading(false);
             const { data } = response;
             setUsuarios(data);

@@ -277,7 +277,9 @@ const List = () => {
                     display="default"
                     onChange={(event, date) => {
                         setShowStartDate(false);
-                        setStartDate(date);
+                        if (typeof date !== 'undefined') {
+                            setStartDate(date);
+                        }
                     }}
                 />
             )}
@@ -290,7 +292,9 @@ const List = () => {
                     display="default"
                     onChange={(event, date) => {
                         setShowEndDate(false);
-                        setEndDate(date);
+                        if (typeof date !== 'undefined') {
+                            setEndDate(date);
+                        }
                     }}
                 />
             )}
