@@ -1,13 +1,7 @@
 <p align="center">
-  <img alt="preview1" src=".github/preview1.PNG" width="100%">
-</p>
-
-<p align="center">
-  <img alt="preview2" src=".github/preview2.PNG" width="100%">
-</p>
-
-<p align="center">
-  <img alt="preview3" src=".github/preview3.PNG" width="100%">
+  <img alt="preview1" src=".github/preview1.PNG" width="30%">
+  <img alt="preview2" src=".github/preview2.PNG" width="30%">
+    <img alt="preview3" src=".github/preview3.PNG" width="30%">
 </p>
 
 
